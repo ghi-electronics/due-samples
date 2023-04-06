@@ -63,10 +63,10 @@ namespace SSD1306 {
 
         public void SetColorFormat(bool invert) => this.SendCommand((byte)(invert ? 0xA7 : 0xA6));
 
-        public void Flush() => this.dueController.I2c.Write(SlaveAddress, this.vram);
+        public void Show() => this.dueController.I2c.Write(SlaveAddress, this.vram);
 
-        public void Flush(byte[] buffer) => this.Flush(buffer, 0, (uint)buffer.Length);
-        public void Flush(byte[] buffer, uint offset, uint length) {
+        public void Show(byte[] buffer) => this.Show(buffer, 0, (uint)buffer.Length);
+        public void Show(byte[] buffer, uint offset, uint length) {
             if (buffer == null || (offset + length > buffer.Length))
                 throw new ArgumentOutOfRangeException();
 
