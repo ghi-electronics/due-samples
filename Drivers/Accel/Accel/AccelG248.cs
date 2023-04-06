@@ -1,13 +1,12 @@
 using GHIElectronics.DUE;
 
-namespace Accel
-{
-    public class Accel
+namespace Accelerometer {
+    public class AccelG248
     {
         DUEController dueController;
 
-        byte slaveAddress = 0x1C;
-        public Accel(DUEController due)
+        const byte SlaveAddress = 0x1C;
+        public AccelG248(DUEController due)
         {
             this.dueController = due;
 
@@ -18,7 +17,7 @@ namespace Accel
         {
             var writeData = new byte[2] { reg, value };
 
-            this.dueController.I2c.Write(this.slaveAddress, writeData);
+            this.dueController.I2c.Write(SlaveAddress, writeData);
 
         }
         private byte[] ReadFromRegister(byte reg, int count)
@@ -26,7 +25,7 @@ namespace Accel
             var writeData = new byte[1] { reg };
             var readData = new byte[count];
 
-            this.dueController.I2c.WriteRead(this.slaveAddress, writeData, readData);
+            this.dueController.I2c.WriteRead(SlaveAddress, writeData, readData);
 
             return readData;
         }
