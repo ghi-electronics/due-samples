@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gyroscope", "Gyroscope\Gyroscope.csproj", "{45C5B048-FB58-4D70-91F6-42AAFA12E419}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45C5B048-FB58-4D70-91F6-42AAFA12E419}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C5B048-FB58-4D70-91F6-42AAFA12E419}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C5B048-FB58-4D70-91F6-42AAFA12E419}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C5B048-FB58-4D70-91F6-42AAFA12E419}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FBC66579-BB60-42C8-9E82-6FCE132D1E78}
+	EndGlobalSection
+EndGlobal
