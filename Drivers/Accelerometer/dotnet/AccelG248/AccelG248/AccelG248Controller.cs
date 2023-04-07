@@ -36,7 +36,7 @@ namespace Accelerometer {
             {
                 var read = this.ReadFromRegister(0x1, 2);
 
-                var v = (read[0] << 2) | ((read[1] >> 6) & 0x3F);
+                var v = (read[0] << 2) | ((read[1] >> 6) );
                 if (v > 511)
                     v = v- 1024;
 
@@ -51,7 +51,7 @@ namespace Accelerometer {
             {
                 var read = this.ReadFromRegister(0x3, 2);
 
-                var v = (read[0] << 2) | ((read[1] >> 6) & 0x3F);
+                var v = (read[0] << 2) | ((read[1] >> 6) );
                 if (v > 511)
                     v = v - 1024;
 
@@ -66,7 +66,7 @@ namespace Accelerometer {
             {
                 var read = this.ReadFromRegister(0x5, 2);
 
-                var v = (read[0] << 2) | ((read[1] >> 6) & 0x3F);
+                var v = (read[0] << 2) | ((read[1] >> 6) );
                 if (v > 511)
                     v = v - 1024;
 
