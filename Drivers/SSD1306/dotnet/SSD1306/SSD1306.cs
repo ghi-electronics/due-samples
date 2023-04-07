@@ -12,11 +12,12 @@ namespace SSD1306 {
         private readonly byte[] vram = new byte[128 * 64 / 8 + 1];
         private readonly byte[] buffer2 = new byte[2];
 
-        const byte SlaveAddress = 0x3C;
+        public byte SlaveAddress { get; }
         public int Width => 128;
         public int Height => 64;
-        public SSD1306(DUEController due) {
+        public SSD1306(DUEController due, byte slaveAddress = 0x3C) {
             this.dueController = due;
+            this.SlaveAddress = slaveAddress;
 
             this.vram[0] = 0x40;
 
