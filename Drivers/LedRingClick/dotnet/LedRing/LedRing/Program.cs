@@ -1,4 +1,7 @@
-using System.Net.NetworkInformation;
+// IMPORTANT: Click shield for Pi Pico has a major flaw. MISO and MOSI pins are swapped on board rev 1.00
+// The code does not use SPI and instead bit-bang to give soft-SPI on the compensated pins to correct the design error
+// This works but the system will run extremely slow
+
 using GHIElectronics.DUE;
 using LedRing;
 
