@@ -33,7 +33,7 @@ namespace LIS3DH {
             this.dueController = dueController;
 
 
-            var whoami = this.ReadRegister8(REG_WHO_AM_I);
+            var whoami = this.ReadRegister8(0xf);
 
 
             if (whoami != WHO_AM_I) {
@@ -67,19 +67,10 @@ namespace LIS3DH {
             Thread.Sleep(LIS3DHTR_CONVERSIONDELAY);
 
             this.SetFullScaleRange(ScaleType.LIS3DHTR_RANGE_16G);
-            this.SetOutputDataRate(OdrType.LIS3DHTR_DATARATE_400HZ);
+            //this.SetOutputDataRate(OdrType.LIS3DHTR_DATARATE_400HZ);
 
-            //this.SetAccelMode(RATE_100_HZ);
-
-            //this.WriteRegister8(REG_CTRL_REG1, this.reg1);
-            //this.WriteRegister8(REG_CTRL_REG2, this.reg2);
-            //this.WriteRegister8(REG_CTRL_REG3, this.reg3);
-            //this.WriteRegister8(REG_CTRL_REG4, this.reg4);
-            //this.WriteRegister8(REG_CTRL_REG5, this.reg5);
-            //this.WriteRegister8(REG_CTRL_REG6, this.reg6);
-
-            //// Set FIFO mode
-            //this.WriteRegister8(REG_FIFO_CTRL_REG, this.fifoCtrlReg);
+            this.SetOutputDataRate(OdrType.LIS3DHTR_DATARATE_50HZ);
+            this.SetHighSolution(true);
 
 
         }
@@ -130,11 +121,11 @@ namespace LIS3DH {
 
         //public void EnableTemperature(bool enable) {
 
-        //        var config5 = LIS3DHTR_REG_TEMP_ADC_PD_ENABLED |
-        //                  (enable ? LIS3DHTR_REG_TEMP_TEMP_EN_ENABLED: LIS3DHTR_REG_TEMP_TEMP_EN_DISABLED);
+        //    var config5 = LIS3DHTR_REG_TEMP_ADC_PD_ENABLED |
+        //              (enable ? LIS3DHTR_REG_TEMP_TEMP_EN_ENABLED : LIS3DHTR_REG_TEMP_TEMP_EN_DISABLED);
 
-        //        this.WriteRegister8(LIS3DHTR_REG_TEMP_CFG, (byte)config5);
-        //        Thread.Sleep(LIS3DHTR_CONVERSIONDELAY);
+        //    this.WriteRegister8(LIS3DHTR_REG_TEMP_CFG, (byte)config5);
+        //    Thread.Sleep(LIS3DHTR_CONVERSIONDELAY);
 
         //}
         public void SetHighSolution(bool enable) {
@@ -188,7 +179,7 @@ namespace LIS3DH {
         }
 
         //private double GetTemperature() {
-        //    var t = this.ReadRegister16(0x0c) * 1.0 /256.0;
+        //    var t = this.ReadRegister16(0x0c) * 1.0 / 256.0;
         //    t += 25;
 
         //    return t;
@@ -199,15 +190,12 @@ namespace LIS3DH {
             return data[0];
         }
 
-        //private ushort ReadRegister16(byte register) {
-        //    var data = this.ReadRegister(register, 2);
+        private ushort ReadRegister16(byte register) {
+            var data = this.ReadRegister(register, 2);
 
-        //    return (byte)(data[0] | data[1] << 8);
-        //}
+            return (byte)(data[0] | data[1] << 8);
+        }
         private byte[] ReadRegister(byte register, int count) {
-            if (count > 1) {
-                register = (byte)(register | I2C_INCREMENT);
-            }
 
             var dataWrite = new byte[1] { register };
             var dataRead = new byte[count];
@@ -218,10 +206,6 @@ namespace LIS3DH {
 
         private void WriteRegister(byte register, byte[] data) {
             var dataWrite = new byte[data.Length + 1];
-
-            if (data.Length > 1) {
-                register = (byte)(register | I2C_INCREMENT);
-            }
 
             dataWrite[0] = register;
 
