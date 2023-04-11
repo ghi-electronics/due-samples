@@ -119,15 +119,15 @@ namespace LIS3DH {
             return (float)z / this.accRange;
         }
 
-        //public void EnableTemperature(bool enable) {
+        public void EnableTemperature(bool enable) {
 
-        //    var config5 = LIS3DHTR_REG_TEMP_ADC_PD_ENABLED |
-        //              (enable ? LIS3DHTR_REG_TEMP_TEMP_EN_ENABLED : LIS3DHTR_REG_TEMP_TEMP_EN_DISABLED);
+            var config5 = LIS3DHTR_REG_TEMP_ADC_PD_ENABLED |
+                      (enable ? LIS3DHTR_REG_TEMP_TEMP_EN_ENABLED : LIS3DHTR_REG_TEMP_TEMP_EN_DISABLED);
 
-        //    this.WriteRegister8(LIS3DHTR_REG_TEMP_CFG, (byte)config5);
-        //    Thread.Sleep(LIS3DHTR_CONVERSIONDELAY);
+            this.WriteRegister8(LIS3DHTR_REG_TEMP_CFG, (byte)config5);
+            Thread.Sleep(LIS3DHTR_CONVERSIONDELAY);
 
-        //}
+        }
         public void SetHighSolution(bool enable) {
              
             var data = this.ReadRegister8(LIS3DHTR_REG_ACCEL_CTRL_REG4);
@@ -193,10 +193,13 @@ namespace LIS3DH {
         private ushort ReadRegister16(byte register) {
             var data = this.ReadRegister(register, 2);
 
-            return (byte)(data[0] | data[1] << 8);
+            return (ushort)(data[0] | data[1] << 8);
         }
         private byte[] ReadRegister(byte register, int count) {
 
+            if (count > 1) {
+                register = (byte)(register | 0x80);
+            }
             var dataWrite = new byte[1] { register };
             var dataRead = new byte[count];
 
