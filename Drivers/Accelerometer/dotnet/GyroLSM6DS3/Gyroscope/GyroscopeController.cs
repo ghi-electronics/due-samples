@@ -113,35 +113,35 @@ namespace Gyroscope {
             return false;
         }
 
-        public bool GyroscopeAvailable() {
-            if ((this.ReadRegister(LSM6DS3_STATUS_REG) & 0x02) != 0) {
-                return true;
-            }
+        //public bool GyroscopeAvailable() {
+        //    if ((this.ReadRegister(LSM6DS3_STATUS_REG) & 0x02) != 0) {
+        //        return true;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
-        public bool ReadGyroscope(out float x, out float y, out float z) {
-            x = 0;
-            y = 0;
-            z = 0;
+        //public bool ReadGyroscope(out float x, out float y, out float z) {
+        //    x = 0;
+        //    y = 0;
+        //    z = 0;
 
-            var data = this.ReadRegisters(LSM6DS3_OUTX_L_G, 6);
+        //    var data = this.ReadRegisters(LSM6DS3_OUTX_L_G, 6);
 
-            var raw0 = data[0] | (data[1] << 8);
-            var raw1 = data[2] | (data[3] << 8);
-            var raw2 = data[3] | (data[5] << 8);
+        //    var raw0 = data[0] | (data[1] << 8);
+        //    var raw1 = data[2] | (data[3] << 8);
+        //    var raw2 = data[3] | (data[5] << 8);
 
 
-            if (data != null) {
-                x = (float)(raw0 * 2000.0 / 32768.0);
-                y = (float)(raw1 * 2000.0 / 32768.0);
-                z = (float)(raw2 * 2000.0 / 32768.0);
-                return true;
-            }
+        //    if (data != null) {
+        //        x = (float)(raw0 * 2000.0 / 32768.0);
+        //        y = (float)(raw1 * 2000.0 / 32768.0);
+        //        z = (float)(raw2 * 2000.0 / 32768.0);
+        //        return true;
+        //    }
 
-            return false;
+        //    return false;
 
-        }
+        //}
     }
 }
