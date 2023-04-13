@@ -1,0 +1,2 @@
+https://github.com/arduino-libraries/Arduino_LSM6DS3/blob/master/src/LSM6DS3.h
+https://github.com/stm32duino/LSM6DS3/blob/main/src/LSM6DS3_ACC_GYRO_Driver.c
