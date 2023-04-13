@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpriteMaster", "SpriteMaster\SpriteMaster.csproj", "{ABD6422B-332B-47C5-A3FC-268AEA50F2D2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABD6422B-332B-47C5-A3FC-268AEA50F2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABD6422B-332B-47C5-A3FC-268AEA50F2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABD6422B-332B-47C5-A3FC-268AEA50F2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABD6422B-332B-47C5-A3FC-268AEA50F2D2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {528B4436-C163-46C1-8DA4-0A5F799D9439}
+	EndGlobalSection
+EndGlobal
