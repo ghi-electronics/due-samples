@@ -3,6 +3,10 @@
 // PIR connected to pin 28
 // Buzzer connect to pin 27
 
+// 0.96 OlED Display: Refer to https://github.com/ghi-electronics/due-samples/tree/main/Drivers/Display/SSD1306
+// Temperature and Humidity: Refer to https://github.com/ghi-electronics/due-samples/tree/main/Drivers/Temperature-Humidity/SHT31
+// Gyroscope Accelerometer : https://github.com/ghi-electronics/due-samples/tree/main/Drivers/Accelerometer/Gyro
+
 using GHIElectronics.DUE;
 
 var port = DUEController.GetConnectionPort();
