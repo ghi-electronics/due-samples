@@ -28,7 +28,7 @@ class Bar {
             this.g.DrawLine(this.x + i, this.height + this.gap, this.x + i, this.g.Height - 1, Color.Green);
         }
 
-        if (HappyBirdGame.Frames % BAR_UPDATE_FRAME == 0) this.x -= 1;
+        if (FallingBirdGame.Frames % BAR_UPDATE_FRAME == 0) this.x -= 1;
     }
 
     public bool IsActive => x >= 0;

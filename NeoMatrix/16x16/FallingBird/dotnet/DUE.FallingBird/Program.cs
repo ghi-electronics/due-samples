@@ -19,5 +19,5 @@ Canvas canvas = new(16, 16,
 );
 
 
-HappyBirdGame game = new(canvas, btn);
+FallingBirdGame game = new(canvas, btn);
 game.Run();

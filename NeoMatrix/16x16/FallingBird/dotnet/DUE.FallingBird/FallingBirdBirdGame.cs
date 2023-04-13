@@ -4,7 +4,7 @@ using DUE.Graphics;
 using static GHIElectronics.DUE.DUEController;
 using static GHIElectronics.DUE.DUEController.ButtonController;
 
-class HappyBirdGame {
+class FallingBirdGame {
     const int MIN_BAR_SPACING = 10;
 
     public static int Frames { get; private set; }
@@ -25,7 +25,7 @@ class HappyBirdGame {
     private int lives = 4;
     private int framesToNextBar;
     
-    public HappyBirdGame(Canvas g, ButtonController btn) {
+    public FallingBirdGame(Canvas g, ButtonController btn) {
         this.g = g;
         this.bird = new Bird(g, btn, 5, 8);
         this.bars = new() {
