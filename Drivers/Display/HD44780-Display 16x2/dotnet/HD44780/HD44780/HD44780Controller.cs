@@ -13,15 +13,6 @@ namespace HD44780 {
         const uint RGB_ADDRESS = (0xc4 >> 1);
         const uint RGB_ADDRESS_V5 = (0x30);
 
-
-        // color define
-        public enum Colors {
-            WHITE = 0x00FFFFFF,
-            RED = 0x00FF0000,
-            GREEN = 0x0000FF00,
-            BLUE = 0x000000FF,
-        };
-
         const uint REG_MODE1 = 0x00;
         const uint REG_MODE2 = 0x01;
         const uint REG_OUTPUT = 0x08;
@@ -159,39 +150,7 @@ namespace HD44780 {
             this.dueController.I2c.Write(this.SlaveAddress, data);
         }
 
-        private void SetRGB(byte r, byte g, byte b) {
-            if (this.SlaveAddress == RGB_ADDRESS_V5) {
-                this.WriteRegister(0x06, r);
-                this.WriteRegister(0x07, g);
-                this.WriteRegister(0x08, b);
-            }
-            else {
-                this.WriteRegister(0x04, r);
-                this.WriteRegister(0x03, g);
-                this.WriteRegister(0x02, b);
-            }
-        }
-
-        private void SetPwm(Colors color, float pwm) {
-            var value = (byte)(pwm * 255);
-
-
-            switch (color) {
-                case Colors.WHITE:
-                    this.SetRGB(value, value, value);
-                    break;
-                case Colors.RED:
-                    this.SetRGB(value, 0, 0);
-                    break;
-                case Colors.GREEN:
-                    this.SetRGB(0, value, 0);
-                    break;
-                case Colors.BLUE:
-                    this.SetRGB(0, 0, value);
-                    break;
-
-            }
-        }
+       
 
         public void Clear() {
             this.WriteCommand((byte)LCD_CLEARDISPLAY);
