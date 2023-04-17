@@ -59,12 +59,12 @@ namespace SSD1306 {
 
         private void SendCommand(byte cmd) {
             this.buffer2[1] = cmd;
-            this.dueController.I2c.Write(SlaveAddress, this.buffer2);
+            this.dueController.I2c.Write(this.SlaveAddress, this.buffer2);
         }
 
         public void SetColorFormat(bool invert) => this.SendCommand((byte)(invert ? 0xA7 : 0xA6));
 
-        public void Show() => this.dueController.I2c.Write(SlaveAddress, this.vram);
+        public void Show() => this.dueController.I2c.Write(this.SlaveAddress, this.vram);
 
         public void Show(byte[] buffer) => this.Show(buffer, 0, (uint)buffer.Length);
         public void Show(byte[] buffer, uint offset, uint length) {
@@ -72,7 +72,7 @@ namespace SSD1306 {
                 throw new ArgumentOutOfRangeException();
 
             Array.Copy(buffer, offset, this.vram, 1, length);
-            this.dueController.I2c.Write(SlaveAddress, this.vram);
+            this.dueController.I2c.Write(this.SlaveAddress, this.vram);
         }
         public void SetPixel(int x, int y, uint color) {
             if (x < 0 || y < 0 || x >= this.Width || y >= this.Height) return;
