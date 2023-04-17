@@ -1,5 +1,5 @@
 from DUE.DUEController import DUEController
-import json
+
 mono8x5 = [
     0x00, 0x00, 0x00, 0x00, 0x00, #  Space	0x20 */
     0x00, 0x00, 0x4f, 0x00, 0x00, #  ! */
@@ -157,7 +157,7 @@ class SSD1306Controller:
         else:
             self.__SendCommand(self, 0xA6)
 
-    def Show(self, data: bytearray, offset: int, length: int) :
+    def ShowData(self, data: bytearray, offset: int, length: int) :
         if data == 0 or (offset+ length) > len(data):
             raise ("Argument out of range exception")
         

@@ -68,21 +68,21 @@ namespace ST7735 {
 
         private byte[] internalBuffer;
 
-        private readonly int control;
-        private readonly int reset;
-        private readonly int cs;
-        private readonly int backlight;        
+        private readonly int controlPin;
+        private readonly int resetPin;
+        private readonly int chipselectPin;
+        private readonly int backlightPin;        
         public int Width { get; private set; } = 160;
         public int Height { get; private set; } = 128;
 
         DUEController dueController;
-        public ST7735Controller(DUEController dueController, int chipselectPin, int controlPin, int resetPin, int backlightPin) {
+        public ST7735Controller(DUEController dueController, int chipselectPin = -1, int controlPin= -1, int resetPin = -1, int backlightPin = -1) {
 
-            this.reset = resetPin;
+            this.resetPin = resetPin;
             this.dueController = dueController;
-            this.control = controlPin;
-            this.cs = chipselectPin;
-            this.backlight = backlightPin;
+            this.controlPin = controlPin;
+            this.chipselectPin = chipselectPin;
+            this.backlightPin = backlightPin;
 
             this.Reset();
             this.Initialize();
@@ -97,13 +97,16 @@ namespace ST7735 {
         }
 
         private void Reset() {
-            this.dueController.Digital.Write(this.backlight, true);
+            if (this.backlightPin != -1)
+                this.dueController.Digital.Write(this.backlightPin, true);
 
-            this.dueController.Digital.Write(this.reset, false);
-            Thread.Sleep(50);
+            if (this.resetPin != -1) {
+                this.dueController.Digital.Write(this.resetPin, false);
+                Thread.Sleep(50);
 
-            this.dueController.Digital.Write(this.reset, true);
-            Thread.Sleep(200);
+                this.dueController.Digital.Write(this.resetPin, true);
+                Thread.Sleep(200);
+            }
         }
 
         private void Initialize() {
@@ -198,19 +201,19 @@ namespace ST7735 {
 
         private void SendCommand(ST7735CommandId command) {
             this.buffer1[0] = (byte)command;
-            this.dueController.Digital.Write(this.control, false);
-            this.dueController.Spi.Write(this.buffer1, this.cs);
+            this.dueController.Digital.Write(this.controlPin, false);
+            this.dueController.Spi.Write(this.buffer1, this.chipselectPin);
         }
 
         private void SendData(byte data) {
             this.buffer1[0] = data;
-            this.dueController.Digital.Write(this.control, true);
-            this.dueController.Spi.Write(this.buffer1, this.cs);
+            this.dueController.Digital.Write(this.controlPin, true);
+            this.dueController.Spi.Write(this.buffer1, this.chipselectPin);
         }
 
         private void SendData(byte[] data) {
-            this.dueController.Digital.Write(this.control, true);
-            this.dueController.Spi.Write(data, this.cs);
+            this.dueController.Digital.Write(this.controlPin, true);
+            this.dueController.Spi.Write(data, this.chipselectPin);
         }
 
         public void SetDataAccessControl(bool swapRowColumn, bool invertRow, bool invertColumn, bool useBgrPanel) {
@@ -227,13 +230,6 @@ namespace ST7735 {
 
         private void SetDataFormat(DataFormat dataFormat) {
             switch (dataFormat) {
-                case DataFormat.Rgb444:
-
-                    this.SendCommand(ST7735CommandId.COLMOD);
-                    this.SendData(0x03);
-
-                    break;
-
                 case DataFormat.Rgb565:
 
                     this.SendCommand(ST7735CommandId.COLMOD);
@@ -261,7 +257,7 @@ namespace ST7735 {
 
         private void SendDrawCommand() {
             this.SendCommand(ST7735CommandId.RAMWR);
-            this.dueController.Digital.Write(this.control, true);
+            this.dueController.Digital.Write(this.controlPin, true);
         }
 
         static void SwapEndianness(byte[] data) {
@@ -283,14 +279,14 @@ namespace ST7735 {
             this.SendDrawCommand();
 
             if (_4bpp) {
-                this.dueController.Spi.Write4bpp(buffer, this.cs);
+                this.dueController.Spi.Write4bpp(buffer, this.chipselectPin);
 
                 return;
             }
 
             SwapEndianness(buffer);
 
-            this.dueController.Spi.Write(buffer, this.cs);
+            this.dueController.Spi.Write(buffer, this.chipselectPin);
 
             SwapEndianness(buffer);
         }
