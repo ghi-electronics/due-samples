@@ -1,1 +1,1 @@
-The FallingBird in DUE can be found: https://duelink.com/software/due-script/samples/falling-bird.html (Pulse Falling Bird)
+The FallingBird in DUE can be found: https://duelink.com/software/due-script/samples/falling-bird.html
