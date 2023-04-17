@@ -279,7 +279,7 @@ namespace ST7735 {
             this.SendDrawCommand();
 
             if (_4bpp) {
-                this.dueController.Spi.Write4bpp(buffer, this.chipselectPin);
+                this.dueController.Spi.Write4bpp(buffer, (int)offset, (int)length, this.chipselectPin);
 
                 return;
             }
