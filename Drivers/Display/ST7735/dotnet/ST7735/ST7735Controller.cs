@@ -76,10 +76,10 @@ namespace ST7735 {
         public int Height { get; private set; } = 128;
 
         DUEController dueController;
-        public ST7735Controller(DUEController bp, int chipselectPin, int controlPin, int resetPin, int backlightPin) {
+        public ST7735Controller(DUEController dueController, int chipselectPin, int controlPin, int resetPin, int backlightPin) {
 
             this.reset = resetPin;
-            this.dueController = bp;
+            this.dueController = dueController;
             this.control = controlPin;
             this.cs = chipselectPin;
             this.backlight = backlightPin;
@@ -247,8 +247,6 @@ namespace ST7735 {
         }
 
         public void SetDrawWindow(int x, int y, int width, int height) {
-            this.Width = width;
-            this.Height = height;
 
             this.buffer4[1] = (byte)x;
             this.buffer4[3] = (byte)(x + width);

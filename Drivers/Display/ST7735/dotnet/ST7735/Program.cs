@@ -4,18 +4,30 @@ var port = DUEController.GetConnectionPort();
 
 var dueController = new DUEController(port);
 
-var chipselect = 0; // DUE pin
-var controlPin = 1; // DUE pin
-var resetPin = 2; // DUE pin
-var backlightPin = 3; // DUE pin
+var chipselect = 16; // DUE pin
+var controlPin = 12; // DUE pin
+var resetPin = 8; // DUE pin
+var backlightPin = 1; // DUE pin
+
 
 var screen = new ST7735.ST7735Controller(dueController, chipselect, controlPin, resetPin, backlightPin);
 
 // Use internal buffer
+// user can use external buffer with BasicGraphic
 screen.Clear();
-screen.DrawString("DUE - ST7735", 1, 5, 5);
+screen.DrawString("DUE - ST7735", 0x00FF00, 5, 5);
 screen.Show();
 
-// User can pass external buffer 16bpp or 4bpp
-// void Show(externalbuffer) // 16bpp
-// void Show(externalbuffer, true) // 4bpp
+// This for 4bpp - show Pallete
+var data = new byte[160 * 128 / 2];
+byte color = 0;
+
+for (var i = 0; i < data.Length; i += 640) {
+    for (var c = i; c < i + 640; c++) {
+        data[c] = (byte)((color << 4) | color);
+    }
+
+    color++;
+}
+screen.Show(data, true);
+
