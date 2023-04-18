@@ -4,6 +4,7 @@
 // Buzzer connect to pin 27
 // Default the led is green color
 // When user press the button, the color is while, a beep sound will be played.
+// When uset release the button, a beep sound will be played.
 // When a motion detected, the led will be changed to red
 
 // 0.96 OlED Display: Refer to https://github.com/ghi-electronics/due-samples/tree/main/Drivers/Display/SSD1306
