@@ -17,7 +17,7 @@ namespace TM1637 {
         const byte TM1637_I2C_COMM1 = 0x40;
         const byte TM1637_I2C_COMM2 = 0xC0;
         const byte TM1637_I2C_COMM3 = 0x80;
-        static byte[] digitToSegment = new byte[] {
+        static readonly byte[] digitToSegment = new byte[] {
         // XGFEDCBA
         0b00111111,    // 0
         0b00000110,    // 1
@@ -40,11 +40,11 @@ namespace TM1637 {
         const int INPUT = 0;
         const int OUTPUT = 1;
 
-        public TM1637Controller(DUEController dueController, int pinClk, int piDio, uint bitdelay) {
+        public TM1637Controller(DUEController dueController, int pinClk, int pinDio) {
             this.dueController = dueController;
             this.pinClk = pinClk;
-            this.pinDio = piDio;
-            this.bitdelay = bitdelay;
+            this.pinDio = pinDio;
+            this.bitdelay = 0;
 
             dueController.Digital.Read(this.pinClk, DUEController.Input.PULL_NONE);
             dueController.Digital.Read(this.pinDio, DUEController.Input.PULL_NONE);
@@ -53,7 +53,11 @@ namespace TM1637 {
             dueController.Digital.Write(this.pinDio, false);
         }
 
-        private void BitDelay() {
+        public uint BitDelay {
+            get => this.bitdelay;
+            set => this.bitdelay = value;
+        }
+        private void Delay() {
             var expired = DateTime.Now.Ticks + this.bitdelay * 10;
 
             while (DateTime.Now.Ticks < expired) ;
@@ -63,16 +67,16 @@ namespace TM1637 {
 
         private void Start() {
             this.PinMode(this.pinDio, OUTPUT);
-            this.BitDelay();
+            this.Delay();
         }
 
         private void Stop() {
             this.PinMode(this.pinDio, OUTPUT);
-            this.BitDelay();
+            this.Delay();
             this.PinMode(this.pinClk, INPUT);
-            this.BitDelay();
+            this.Delay();
             this.PinMode(this.pinDio, INPUT);
-            this.BitDelay();
+            this.Delay();
         }
 
         private bool WriteByte(byte b) {
@@ -82,7 +86,7 @@ namespace TM1637 {
             for (byte i = 0; i < 8; i++) {
                 // CLK low
                 this.PinMode(this.pinClk, OUTPUT);
-                this.BitDelay();
+                this.Delay();
 
                 // Set data bit
                 if ((data & 0x01) != 0)
@@ -90,30 +94,30 @@ namespace TM1637 {
                 else
                     this.PinMode(this.pinDio, OUTPUT);
 
-                this.BitDelay();
+                this.Delay();
 
                 // CLK high
                 this.PinMode(this.pinClk, INPUT);
-                this.BitDelay();
+                this.Delay();
                 data = (byte)(data >> 1);
             }
             // Wait for acknowledge
             // CLK to zero
             this.PinMode(this.pinClk, OUTPUT);
             this.PinMode(this.pinDio, INPUT);
-            this.BitDelay();
+            this.Delay();
 
             // CLK to high
             this.PinMode(this.pinClk, INPUT);
-            this.BitDelay();
+            this.Delay();
             var ack = this.dueController.Digital.Read(this.pinDio, DUEController.Input.PULL_NONE);
             if (ack == false)
                 this.PinMode(this.pinDio, OUTPUT);
 
 
-            this.BitDelay();
+            this.Delay();
             this.PinMode(this.pinClk, OUTPUT);
-            this.BitDelay();
+            this.Delay();
 
             return ack;
         }
@@ -129,12 +133,11 @@ namespace TM1637 {
             var digits = new byte[4];
 
             var newPos = 0;
-            var newNum = num;
             var posEnd = 0;
             var posStart = 0;
             var posLength  = num < 0 ? 3 : 4;
 
-            newNum = Math.Abs(num);
+            var newNum = Math.Abs(num);
 
             for (var i = 0; i < posLength; i++) {
                 newNum = (newNum / baseNum);
@@ -195,7 +198,29 @@ namespace TM1637 {
             }
         }
 
-        public void SetBrightness(byte brightness, bool on) => this.brightness = (byte)((brightness & 0x7) | (on ? 0x08 : 0x00));
+        public int Brightness {
+            get => this.brightness & 0x07;
+            set {
+                if (value <   0 || value > 7) {
+                    throw new ArgumentOutOfRangeException("brightness must be in range [0,7]");
+                }
+
+                if (value > 0) {
+                    this.brightness = 8; // turn on
+                    this.brightness = (byte)(this.brightness | (value & 0x7));
+                }
+                else
+                    this.brightness = 0;
+                
+            }
+        }
+        public void SetBrightness(byte brightness, bool on) {
+            if (brightness < 0 || brightness > 7) {
+                throw new ArgumentOutOfRangeException("brightness must be in range [0,7]");
+            }
+
+            this.brightness = (byte)((brightness & 0x7) | (on ? 0x08 : 0x00));
+        }
 
         public void SetSegments(byte[] segments, byte length, byte pos) {
             // Write COMM1

@@ -5,9 +5,12 @@ var port = DUEController.GetConnectionPort();
 
 var dueController = new DUEController(port);
 
-var sevendigits = new TM1637Controller(dueController, 5, 4, 1);
+var pinClk = 5;
+var pinDio = 4;
 
-sevendigits.SetBrightness(255, true);
+var sevendigits = new TM1637Controller(dueController, pinClk, pinDio) {
+    Brightness = 7,    
+};
 
 var counter = 1000;
 
@@ -17,7 +20,6 @@ while (true) {
     Thread.Sleep(500);
     sevendigits.ShowNumberDec(counter, false);
     Thread.Sleep(500);
-    counter++;
-    
+    counter++;    
 }
 
