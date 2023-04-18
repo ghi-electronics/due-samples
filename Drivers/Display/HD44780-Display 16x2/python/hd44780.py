@@ -78,7 +78,7 @@ class HD44780Controller(object):
         data[0]= 0x80
         data[1] = command
         
-        self.dueController.I2c.Write(self.address, data)
+        self.dueController.I2c.Write(self.address, data, 0, len(data))
 
 
     def write_char(self, c):
@@ -86,7 +86,7 @@ class HD44780Controller(object):
         data = bytearray(2)
         data[0]= 0x40
         data[1]= c
-        self.dueController.I2c.Write(self.address, data)
+        self.dueController.I2c.Write(self.address, data, 0, len(data))
 
     def write(self, text):
         for char in text:

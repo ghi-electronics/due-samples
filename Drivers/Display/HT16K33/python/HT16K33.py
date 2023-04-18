@@ -119,11 +119,11 @@ class HT16K33Controller:
         cmd = bytearray(1)
         cmd[0] = HT16K33Controller.HT16K33_OSCILLATOR_ON
 
-        self.dueController.I2c.Write(self.SlaveAddress, cmd)
+        self.dueController.I2c.Write(self.SlaveAddress, cmd,  0, len(cmd))
 
         cmd[0] = HT16K33Controller.HT16K33_BLINK_CMD |HT16K33Controller. HT16K33_BLINK_DISPLAYON
 
-        self.dueController.I2c.Write(self.SlaveAddress, cmd)
+        self.dueController.I2c.Write(self.SlaveAddress, cmd,  0, len(cmd))
 
     def get_brightness(self):
         return self._brightness
@@ -135,7 +135,7 @@ class HT16K33Controller:
         cmd = bytearray(1)
         cmd[0] = (HT16K33Controller.HT16K33_CMD_BRIGHTNESS | self._brightness)
 
-        self.dueController.I2c.Write(self.SlaveAddress, cmd)
+        self.dueController.I2c.Write(self.SlaveAddress, cmd,  0, len(cmd))
 
     Brightness = property(get_brightness, set_brightness)
 
@@ -190,7 +190,7 @@ class HT16K33Controller:
             dataWrite[1 + i * 2 + 0] =  self.data[i] & 0xFF
             dataWrite[1 + i * 2 + 1] =  (self.data[i] << 8) & 0xFF
 
-        self.dueController.I2c.Write(self.SlaveAddress, dataWrite);
+        self.dueController.I2c.Write(self.SlaveAddress, dataWrite, 0, len(dataWrite));
 
     def DrawCharacter(self, c, color, x, y, hScale = 1, vScale = 1):
         character = ord(c)

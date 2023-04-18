@@ -288,16 +288,16 @@ class ST7735Controller:
     def __SendCommand(self, cmd: int):
         self.buffer1[0] = cmd
         self.dueController.Digital.Write(self.controlPin, False)
-        self.dueController.Spi.Write(self.buffer1, self.chipselectPin)
+        self.dueController.Spi.Write(self.buffer1, 0, len(self.buffer1), self.chipselectPin)
 
     def __SendByte(self, data: int):
         self.buffer1[0] = data
         self.dueController.Digital.Write(self.controlPin, True)
-        self.dueController.Spi.Write(self.buffer1, self.chipselectPin)
+        self.dueController.Spi.Write(self.buffer1, 0, len(self.buffer1),self.chipselectPin)
 
     def __SendBytes(self, data: bytearray):
         self.dueController.Digital.Write(self.controlPin, True)
-        self.dueController.Spi.Write(data, self.chipselectPin)
+        self.dueController.Spi.Write(data, 0, len(data),self.chipselectPin)
 
     def SetDataAccessControl(self, swapRowColumn: bool, invertRow: bool, invertColumn: bool, useBgrPanel: bool) :
             val = 0
@@ -351,7 +351,7 @@ class ST7735Controller:
             return
         
         self.__SwapEndianness(data)
-        self.dueController.Spi.Write(data, self.chipselectPin)
+        self.dueController.Spi.Write(data, 0, len(data), self.chipselectPin)
         self.__SwapEndianness(data)
 
 
