@@ -1,4 +1,4 @@
-// We need to connect pin 1 (Neo on Pico) to the RGB led
+// We need to connect pin 1 (Neo pin) to the RGB led
 // Button is connected to pin 26
 // PIR connected to pin 28
 // Buzzer connect to pin 27
