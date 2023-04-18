@@ -10,7 +10,7 @@ namespace InkyBit {
         DUEController dueController;
         public InkyBit(DUEController due) {
             this.dueController = due;
-            this.dueController.Digital.Write(CS, CS_INACTIVE);
+            this.dueController.Digital.Write(PIN_CS, CS_INACTIVE);
 
             this.Clear();
         }
@@ -192,10 +192,10 @@ namespace InkyBit {
         private const byte SET_RAMXCOUNT = 0x4E;
         private const byte SET_RAMYCOUNT = 0x4F;
 
-        private const int DC = 12;// uBit.io.P12   // MICROBIT_PIN_P12
-        private const int CS = 8;// uBit.io.P8    // MICROBIT_PIN_P8
-        private const int RESET = 2;// uBit.io.P2 // MICROBIT_PIN_P2
-        private const int BUSY = 16;// uBit.io.P16 // MICROBIT_PIN_P16
+        private const int PIN_DC = 12;// uBit.io.P12   // MICROBIT_PIN_P12
+        private const int PIN_CS = 8;// uBit.io.P8    // MICROBIT_PIN_P8
+        private const int PIN_RESET = 2;// uBit.io.P2 // MICROBIT_PIN_P2
+        private const int PIN_BUSY = 16;// uBit.io.P16 // MICROBIT_PIN_P16
 
 
         const bool CS_ACTIVE = false;
@@ -203,8 +203,8 @@ namespace InkyBit {
         const bool DC_DATA = true;
         const bool DC_COMMAND = false;
 
-        private const int WIDTH = 250;
-        private const int HEIGHT = 122;
+        public int Width => 250;
+        public int Height => 122;
 
         private const int COLS = 136;
         private const int ROWS = 250;
@@ -220,7 +220,7 @@ namespace InkyBit {
             0xF8, 0xB4, 0x13, 0x51, 0x35, 0x51, 0x51, 0x19, 0x01, 0x00
         };
         public void BusyWait() {
-            while (this.dueController.Digital.Read(BUSY, DUEController.Input.PULL_UP))
+            while (this.dueController.Digital.Read(PIN_BUSY, DUEController.Input.PULL_UP))
             {
                 Thread.Sleep(50);
             }
@@ -230,9 +230,9 @@ namespace InkyBit {
             Array.Fill<byte>(this.buf_b, 0xff);
         }
 
-        public void SetPixel(int x, int y, int color) {
-            if (x >= WIDTH) return;
-            if (y >= HEIGHT) return;
+        public void SetPixel(int x, int y, uint color) {
+            if (x >= this.Width) return;
+            if (y >= this.Height) return;
             y += OFFSET_Y;
             y = COLS - 1 - y;
             var shift = 7 - (y % 8);
@@ -253,82 +253,65 @@ namespace InkyBit {
             this.buf_r[offset] = (byte)byte_r;
         }
 
-        public void SpiCommand(byte command, byte[] data, int len) {
-            
-            this.dueController.Digital.Write(CS, CS_ACTIVE);
-            
-            this.dueController.Digital.Write(DC, DC_COMMAND);
-            var temp = new byte[1] { command };
-            this.dueController.Spi.Write(temp);
-            if (len > 0) {
-             
-                this.dueController.Digital.Write(DC, DC_DATA);
+       
 
-                for (var x = 0; x < len; x++) {
-             
-                    temp[0] = data[x];
-                    this.dueController.Spi.Write(temp);
-                }
-            }            
-            this.dueController.Digital.Write(CS, CS_INACTIVE);
+        void SendCommand(byte command) => this.SendCommands(command, null, 0);
 
-        }
-
-        void SpiCommand(byte command) => this.SpiCommand(command, null, 0);
-
-        void SpiCommand(byte command, byte[] data) {
-            this.dueController.Digital.Write(CS, CS_ACTIVE);
-            this.dueController.Digital.Write(DC, DC_COMMAND);
+        void SendCommands(byte command, byte[] data, int length) {
+            this.dueController.Digital.Write(PIN_CS, CS_ACTIVE);
+            this.dueController.Digital.Write(PIN_DC, DC_COMMAND);
 
             var temp = new byte[1] { command };
             this.dueController.Spi.Write(temp);
-            this.dueController.Digital.Write(DC, DC_DATA);
+            this.dueController.Digital.Write(PIN_DC, DC_DATA);
 
-            this.dueController.Spi.Write(data);            
-            this.dueController.Digital.Write(CS, CS_INACTIVE);
+            if (data != null && length > 0) 
+                this.dueController.Spi.Write(data,0, length);
+
+            this.dueController.Digital.Write(PIN_CS, CS_INACTIVE);
 
         }
 
-        void SpiData(byte[] data) {
+        void SendData(byte[] data) {
 
-            this.dueController.Digital.Write(CS, CS_ACTIVE);
+            this.dueController.Digital.Write(PIN_CS, CS_ACTIVE);
 
-            this.dueController.Digital.Write(DC, DC_DATA);
+            this.dueController.Digital.Write(PIN_DC, DC_DATA);
             this.dueController.Spi.Write(data);
             
-            this.dueController.Digital.Write(CS, CS_ACTIVE);
+            this.dueController.Digital.Write(PIN_CS, CS_ACTIVE);
 
         }
         public void Show() {            
-            this.dueController.Digital.Write(RESET, false);
+            this.dueController.Digital.Write(PIN_RESET, false);
             
             Thread.Sleep(100);            
-            this.dueController.Digital.Write(RESET, true);
+            this.dueController.Digital.Write(PIN_RESET, true);
             
             Thread.Sleep(100);
 
-            this.SpiCommand(0x12);
+            this.SendCommand(0x12);
             Thread.Sleep(500);
             this.BusyWait();
 
-            this.SpiCommand(DRIVER_CONTROL, new byte[] { ROWS - 1, (ROWS - 1) >> 8, 0x00 });
-            this.SpiCommand(WRITE_DUMMY, new byte[] { 0x1B });
-            this.SpiCommand(WRITE_GATELINE, new byte[] { 0x0B });
-            this.SpiCommand(DATA_MODE, new byte[] { 0x03 });
-            this.SpiCommand(SET_RAMXPOS, new byte[] { 0x00, COLS / 8 - 1 });
-            this.SpiCommand(SET_RAMYPOS, new byte[] { 0x00, 0x00, (ROWS - 1) & 0xFF, (ROWS - 1) >> 8 });
-            this.SpiCommand(WRITE_VCOM, new byte[] { 0x70 });
-            this.SpiCommand(WRITE_LUT, this.luts, this.luts.Length);
-            this.SpiCommand(SET_RAMXCOUNT, new byte[] { 0x00 });
-            this.SpiCommand(SET_RAMYCOUNT, new byte[] { 0x00, 0x00 });
+            this.SendCommands(DRIVER_CONTROL, new byte[] { ROWS - 1, (ROWS - 1) >> 8, 0x00 }, 3);
+            this.SendCommands(WRITE_DUMMY, new byte[] { 0x1B }, 1);
+            this.SendCommands(WRITE_GATELINE, new byte[] { 0x0B }, 1);
+            this.SendCommands(DATA_MODE, new byte[] { 0x03 }, 1);
+            this.SendCommands(SET_RAMXPOS, new byte[] { 0x00, COLS / 8 - 1 }, 2);
+            this.SendCommands(SET_RAMYPOS, new byte[] { 0x00, 0x00, (ROWS - 1) & 0xFF, (ROWS - 1) >> 8 }, 4);
+            this.SendCommands(WRITE_VCOM, new byte[] { 0x70 }, 1);
+            this.SendCommands(WRITE_LUT, this.luts, this.luts.Length);
+            this.SendCommands(SET_RAMXCOUNT, new byte[] { 0x00 }, 1);
+            this.SendCommands(SET_RAMYCOUNT, new byte[] { 0x00, 0x00 }, 2);
 
-            this.SpiCommand(WRITE_RAM);
-            this.SpiData(this.buf_b);
-            this.SpiCommand(WRITE_ALTRAM);
-            this.SpiData(this.buf_r);
+            this.SendCommand(WRITE_RAM);
+            this.SendData(this.buf_b);
+            this.SendCommand(WRITE_ALTRAM);
+            this.SendData(this.buf_r);
 
             this.BusyWait();
-            this.SpiCommand(MASTER_ACTIVATE);
+            this.SendCommand(MASTER_ACTIVATE);
         }
     }
 }
