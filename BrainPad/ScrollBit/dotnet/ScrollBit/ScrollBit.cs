@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 using GHIElectronics.DUE;
 
 namespace ScrollBit {
-    public class ScrollBit {
+    public class ScrollBitController {
         DUEController dueController;
 
-        private const int I2C_ADDR = 0x74;
         private const int REG_MODE = 0x00;
         private const int REG_FRAME = 0x01;
         private const int REG_AUDIOSYNC = 0x06;
@@ -29,6 +28,7 @@ namespace ScrollBit {
 
 
         public bool UpSideDown { get; set; } = false;
+        public byte SlaveAddress { get; }
         private void WriteByte(byte addr, byte register, byte value) {
             var temp = new byte[2];
             temp[0] = register;
@@ -46,29 +46,30 @@ namespace ScrollBit {
 
         }
 
-        public ScrollBit(DUEController dueController) {
+        public ScrollBitController(DUEController dueController, byte slaveAddress = 0x74) {
             this.dueController = dueController;
+            this.SlaveAddress = slaveAddress;
 
             this.Clear();
-            this.WriteByte(I2C_ADDR, REG_BANK, BANK_CONFIG);
+            this.WriteByte(this.SlaveAddress, REG_BANK, BANK_CONFIG);
             
             Thread.Sleep(1);
-            this.WriteByte(I2C_ADDR, REG_SHUTDOWN, 0);
+            this.WriteByte(this.SlaveAddress, REG_SHUTDOWN, 0);
             Thread.Sleep(1);
 
-            this.WriteByte(I2C_ADDR, REG_SHUTDOWN, 1);
+            this.WriteByte(this.SlaveAddress, REG_SHUTDOWN, 1);
             Thread.Sleep(1);
 
 
-            this.WriteByte(I2C_ADDR, REG_MODE, 0);
-            this.WriteByte(I2C_ADDR, REG_AUDIOSYNC, 0);
+            this.WriteByte(this.SlaveAddress, REG_MODE, 0);
+            this.WriteByte(this.SlaveAddress, REG_AUDIOSYNC, 0);
 
             var enable = new byte[17];
             Array.Fill<byte>(enable, 255);
-            this.WriteByte(I2C_ADDR, REG_BANK, 0);
-            this.WriteBuffer(I2C_ADDR, 0, enable);
-            this.WriteByte(I2C_ADDR, REG_BANK, 1);
-            this.WriteBuffer(I2C_ADDR, 0, enable);
+            this.WriteByte(this.SlaveAddress, REG_BANK, 0);
+            this.WriteBuffer(this.SlaveAddress, 0, enable);
+            this.WriteByte(this.SlaveAddress, REG_BANK, 1);
+            this.WriteBuffer(this.SlaveAddress, 0, enable);
         }
         public void Show() {
             var corrected_buf = new byte[144];
@@ -77,10 +78,10 @@ namespace ScrollBit {
                 corrected_buf[x] = this.CorrectGamma(this.buf[x]);
             }
 
-            this.WriteByte(I2C_ADDR, REG_BANK, this.frame);
-            this.WriteBuffer(I2C_ADDR, REG_COLOR, corrected_buf);
-            this.WriteByte(I2C_ADDR, REG_BANK, BANK_CONFIG);
-            this.WriteByte(I2C_ADDR, REG_FRAME, this.frame);
+            this.WriteByte(this.SlaveAddress, REG_BANK, this.frame);
+            this.WriteBuffer(this.SlaveAddress, REG_COLOR, corrected_buf);
+            this.WriteByte(this.SlaveAddress, REG_BANK, BANK_CONFIG);
+            this.WriteByte(this.SlaveAddress, REG_FRAME, this.frame);
 
             this.frame = (byte)(this.frame == 0 ? 1 : 0);
         }
