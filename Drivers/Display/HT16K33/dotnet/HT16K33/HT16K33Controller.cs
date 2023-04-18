@@ -97,6 +97,8 @@ namespace HT16K33 {
         public void Show() {
             var dataWrite = new byte[this.data.Length * 2 + 1];
 
+            dataWrite[0] = 0;// cmd
+
             for (var i = 0; i < this.data.Length; i++) {
                 dataWrite[1 + i * 2 + 0] = (byte)(this.data[i] & 0xFF);
                 dataWrite[1 + i * 2 + 1] = (byte)((this.data[i] << 8) & 0xFF);
