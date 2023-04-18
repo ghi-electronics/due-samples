@@ -181,7 +181,9 @@ class SSD1306Controller:
             self.vram[1 + index] &= (~(1 << (y % 8)))  
 
     def Clear(self):
-        self.vram.zfill(0)
+        for i in range (len(self.vram)):
+            self.vram[i] = 0
+            
         self.vram[0] = 0x40
 
     def DrawCharacter(self, character, color, x, y, hScale = 1, vScale = 1):

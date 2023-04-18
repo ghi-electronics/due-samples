@@ -359,9 +359,8 @@ class ST7735Controller:
         self.ShowData(self.internalBuffer, 0, len(self.internalBuffer))  
 
     def Clear(self):
-        self.internalBuffer.zfill(0)
-        
-
+        for i in range(len(self.internalBuffer)):
+            self.internalBuffer[i] = 0
  
 
     def SetPixel(self, x: int, y: int, color: int):
