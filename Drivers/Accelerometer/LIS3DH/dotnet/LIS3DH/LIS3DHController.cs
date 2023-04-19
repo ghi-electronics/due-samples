@@ -12,18 +12,6 @@ namespace LIS3DH {
 
         public byte SlaveAddress { get; }
 
-        //private byte reg1 = 0;
-        //private byte reg2 = 0;
-        //private byte reg3 = 0;
-        //private byte reg4 = 0;
-        //private byte reg5 = 0;
-        //private byte reg6 = 0;
-        //private bool setReference = false;
-        //private byte int1_ths = 0;
-        //private byte int1_duration = 0;
-        //private byte int1_cfg = 0;
-        //private byte fifoCtrlReg = 0;
-
         private uint accRange;
 
 
@@ -81,53 +69,47 @@ namespace LIS3DH {
 
         //public double Temperature => this.GetTemperature();  
         private float GetAccelerationX() {
-            // Read the Data
-            // Reading the Low X-Axis Acceleration Data Register
+         
             var xAccelLo = this.ReadRegister8(LIS3DHTR_REG_ACCEL_OUT_X_L);
-            // Reading the High X-Axis Acceleration Data Register
+           
             var xAccelHi = this.ReadRegister8(LIS3DHTR_REG_ACCEL_OUT_X_H);
-            // Conversion of the result
-            // 16-bit signed result for X-Axis Acceleration Data of LIS3DHTR
+         
             var x = (ushort)((xAccelHi << 8) | xAccelLo);
 
             return (float)x / this.accRange;
         }
 
         private float GetAccelerationY() {
-            // Read the Data
-            // Reading the Low X-Axis Acceleration Data Register
+          
             var yAccelLo = this.ReadRegister8(LIS3DHTR_REG_ACCEL_OUT_Y_L);
-            // Reading the High X-Axis Acceleration Data Register
+           
             var yAccelHi = this.ReadRegister8(LIS3DHTR_REG_ACCEL_OUT_Y_H);
-            // Conversion of the result
-            // 16-bit signed result for X-Axis Acceleration Data of LIS3DHTR
+         
             var y = (ushort)((yAccelHi << 8) | yAccelLo);
 
             return (float)y / this.accRange;
         }
 
         private float GetAccelerationZ() {
-            // Read the Data
-            // Reading the Low X-Axis Acceleration Data Register
-            var zAccelLo = this.ReadRegister8(LIS3DHTR_REG_ACCEL_OUT_Y_L);
-            // Reading the High X-Axis Acceleration Data Register
-            var zAccelHi = this.ReadRegister8(LIS3DHTR_REG_ACCEL_OUT_Y_H);
-            // Conversion of the result
-            // 16-bit signed result for X-Axis Acceleration Data of LIS3DHTR
+         
+            var zAccelLo = this.ReadRegister8(LIS3DHTR_REG_ACCEL_OUT_Z_L);
+           
+            var zAccelHi = this.ReadRegister8(LIS3DHTR_REG_ACCEL_OUT_Z_H);
+         
             var z = (ushort)((zAccelHi << 8) | zAccelLo);
-
+    
             return (float)z / this.accRange;
         }
 
-        public void EnableTemperature(bool enable) {
+        //public void EnableTemperature(bool enable) {
 
-            var config5 = LIS3DHTR_REG_TEMP_ADC_PD_ENABLED |
-                      (enable ? LIS3DHTR_REG_TEMP_TEMP_EN_ENABLED : LIS3DHTR_REG_TEMP_TEMP_EN_DISABLED);
+        //    var config5 = LIS3DHTR_REG_TEMP_ADC_PD_ENABLED |
+        //              (enable ? LIS3DHTR_REG_TEMP_TEMP_EN_ENABLED : LIS3DHTR_REG_TEMP_TEMP_EN_DISABLED);
 
-            this.WriteRegister8(LIS3DHTR_REG_TEMP_CFG, (byte)config5);
-            Thread.Sleep(LIS3DHTR_CONVERSIONDELAY);
+        //    this.WriteRegister8(LIS3DHTR_REG_TEMP_CFG, (byte)config5);
+        //    Thread.Sleep(LIS3DHTR_CONVERSIONDELAY);
 
-        }
+        //}
         public void SetHighSolution(bool enable) {
              
             var data = this.ReadRegister8(LIS3DHTR_REG_ACCEL_CTRL_REG4);
