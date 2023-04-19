@@ -9,8 +9,8 @@ using GHIElectronics.DUE;
 namespace Gyroscope {
     public class GyroscopeController {
         DUEController dueController;
+        public byte SlaveAddress { get; }
 
-        const byte SlaveAddress = 0x6A;
         const byte LSM6DS3_WHO_AM_I_REG = 0X0F;
         const byte LSM6DS3_CTRL1_XL = 0X10;
         const byte LSM6DS3_CTRL2_G = 0X11;
@@ -28,8 +28,13 @@ namespace Gyroscope {
 
         public float AccelerationSampleRate { get; } = 104.0F;
         public float GyroscopeSampleRate { get; } = 104.0F;
-        public GyroscopeController(DUEController due) {
+
+        public float X { get; private set; }
+        public float Y { get; private set; }
+        public float Z { get; private set; }
+        public GyroscopeController(DUEController due, byte slaveAddress = 0x6A) {
             this.dueController = due;
+            this.SlaveAddress = slaveAddress;
 
             this.Initialize();
         }
@@ -41,7 +46,7 @@ namespace Gyroscope {
             dataWrite[0] = LSM6DS3_WHO_AM_I_REG;// L3G4200D_WHO_AM_I;
 
 
-            this.dueController.I2c.WriteRead(SlaveAddress, dataWrite, dataRead);
+            this.dueController.I2c.WriteRead(this.SlaveAddress, dataWrite, dataRead);
 
             //set the gyroscope control register to work at 104 Hz, 2000 dps and in bypass mode
             this.WriteRegister(LSM6DS3_CTRL2_G, 0x4C);
@@ -61,7 +66,7 @@ namespace Gyroscope {
         private void WriteRegister(byte register, byte data) {
             var dataWrite = new byte[] { register, data };
 
-            this.dueController.I2c.Write(SlaveAddress, dataWrite);
+            this.dueController.I2c.Write(this.SlaveAddress, dataWrite);
 
         }
 
@@ -69,7 +74,7 @@ namespace Gyroscope {
             var dataWrite = new byte[] { register };
             var dataRead = new byte[1];
 
-            this.dueController.I2c.WriteRead(SlaveAddress, dataWrite, dataRead);
+            this.dueController.I2c.WriteRead(this.SlaveAddress, dataWrite, dataRead);
 
             return dataRead[0];
         }
@@ -78,15 +83,13 @@ namespace Gyroscope {
             var dataWrite = new byte[] { register };
             var dataRead = new byte[readcount];
 
-            this.dueController.I2c.WriteRead(SlaveAddress, dataWrite, dataRead);
+            this.dueController.I2c.WriteRead(this.SlaveAddress, dataWrite, dataRead);
 
             return dataRead;
         }
 
-        public bool ReadAcceleration(out float x, out float y, out float z) {
-            x = 0;
-            y = 0;
-            z = 0;
+
+        private bool ReadAcceleration() {
 
             var data = this.ReadRegisters(LSM6DS3_OUTX_L_XL, 6);
 
@@ -95,9 +98,9 @@ namespace Gyroscope {
             var raw2 = data[3] | (data[5] << 8);
 
             if (data != null) {
-                x = (float)(raw0 * 4.0 / 32768.0);
-                y = (float)(raw1 * 4.0 / 32768.0);
-                z = (float)(raw2 * 4.0 / 32768.0);
+                this.X = (float)(raw0 * 4.0 / 32768.0);
+                this.Y = (float)(raw1 * 4.0 / 32768.0);
+                this.Z = (float)(raw2 * 4.0 / 32768.0);
 
                 return true;
             }
@@ -107,7 +110,7 @@ namespace Gyroscope {
 
         public bool AccelerationAvailable() {
             if ((this.ReadRegister(LSM6DS3_STATUS_REG) & 0x01) != 0) {
-                return true;
+                return this.ReadAcceleration();
             }
 
             return false;
