@@ -6,52 +6,41 @@ using System.Threading.Tasks;
 using GHIElectronics.DUE;
 
 namespace LedBar {
-    public enum LedType {
-        MaxLed10 = 10,
-        MaxLed24 = 24,       
-    }    
     public class LedBarController {
         DUEController dueController;
 
-        uint pinClock;
-        uint pinData;
+        int pinClock;
+        int pinData;
 
-        private LedType ledType;
-        public uint LedNum { get; }
-        public bool ReverseShow { get; set; }
+        public uint LedNum { get; } = 10;
+        public bool ReverseShow { get; set; } = false;
 
-        byte[] led;
+        byte[] leds;
 
         const int INPUT = 0;
         const int OUTPUT = 1;
 
-        public LedBarController(DUEController dueController, uint pinClock, uint pinData, bool reverseShow, LedType ledtype) {
-            this.dueController= dueController;
-            this.pinClock= pinClock;
-            this.pinData= pinData;
-            this.ReverseShow= reverseShow;
-            this.ledType = ledtype;
 
+        public LedBarController(DUEController dueController, int pinClock, int pinData) {
+            this.dueController = dueController;
+            this.pinClock = pinClock;
+            this.pinData = pinData;
+            
+            this.leds = new byte[this.LedNum];
 
-            var ledNum = (uint)ledtype;
-
-            this.led = new byte[ledNum];
-
-            for (uint i = 0; i < ledNum; i++) {
-                this.led[i] = 0;
-            }
+            Array.Clear(this.leds);
 
             this.PinMode(this.pinClock, OUTPUT);
             this.PinMode(this.pinData, OUTPUT);
 
-            this.LedNum = ledNum;
+
         }
 
-        private void PinMode(uint pin, int mode) {
+        private void PinMode(int pin, int mode) {
             if (mode == OUTPUT) {
                 this.dueController.Digital.Write((int)pin, false);
             }
-            else {
+            else if (mode == INPUT) {
                 this.dueController.Digital.Read((int)pin, DUEController.Input.PULL_NONE);
             }
         }
@@ -68,47 +57,25 @@ namespace LedBar {
 
         private void Send() {
             if (this.ReverseShow) {
-                if (this.ledType != LedType.MaxLed10) {
-                    this.Send(0x00); //send cmd(0x00)
 
-                    for (uint i = 24; i-- > 12;) {
-                        this.Send(this.led[i]);
-                    }
+                this.Send(0x00); //send cmd(0x00)
 
-                    this.Send(0x00); //send cmd(0x00)
-
-                    for (uint i = 12; i-- > 0;) {
-                        this.Send(this.led[i]);
-                    }
+                for (var i = this.LedNum; i-- > 0;) {
+                    this.Send(this.leds[i]);
                 }
-                else {
-                    this.Send(0x00); //send cmd(0x00)
-
-                    for (var i = this.LedNum; i-- > 0;) {
-                        this.Send(this.led[i]);
-                    }
-                    for (uint i = 0; i < 12 - this.LedNum; i++) {
-                        this.Send(0x00);
-                    }
+                for (uint i = 0; i < 12 - this.LedNum; i++) {
+                    this.Send(0x00);
                 }
-
             }
             else {
                 this.Send(0x00); //send cmd(0x00)
 
-                for (var i = 0; i < 12; i++) {
-                    this.Send(this.led[i]);
+                for (var i = 0; i < this.LedNum; i++) {
+                    this.Send(this.leds[i]);
                 }
 
-                if (this.ledType == LedType.MaxLed10) {
-                    this.Latch();
-                    return;
-                }
-
-                this.Send(0x00); //send cmd(0x00)
-
-                for (uint i = 12; i < 24; i++) {
-                    this.Send(this.led[i]);
+                for (uint i = 0; i < 12 - this.LedNum; i++) {
+                    this.Send(0x00);
                 }
             }
             this.Latch();
@@ -134,12 +101,12 @@ namespace LedBar {
             while (DateTime.Now.Ticks < expired) ;
         }
 
-        public void SetLed(uint ledNo, int brightness) {
-            ledNo = ledNo > this.LedNum ? this.LedNum : ledNo;
+        public void SetLed(uint ledIdx, int brightness) {
+            ledIdx = ledIdx > this.LedNum ? this.LedNum : ledIdx;
 
-            brightness = brightness > 255 ? 255: brightness;
-            
-            this.led[ledNo] = (byte)brightness;
+            brightness = brightness > 255 ? 255 : brightness;
+
+            this.leds[ledIdx] = (byte)brightness;
             this.Send();
         }
 

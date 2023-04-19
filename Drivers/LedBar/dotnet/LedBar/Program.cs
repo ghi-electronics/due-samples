@@ -6,9 +6,9 @@ var port = DUEController.GetConnectionPort();
 
 var dueController = new DUEController(port);
 
-var pinClock = 4U;
-var pinDio = 5U;
-var ledbar = new LedBarController(dueController, pinClock, pinDio, true, LedType.MaxLed10);
+var pinClock = 4;
+var pinDio = 5;
+var ledbar = new LedBarController(dueController, pinClock, pinDio);
 
 while (true) {
     for (var i = 0U; i < 10; i++) {
