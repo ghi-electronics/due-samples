@@ -30,9 +30,9 @@ class LedBarController:
     def get_reverseshow(self):
         return self.__reverseShow
     
-    def set_reverseshow(self, num: int) :
-        return
-    
+    def set_reverseshow(self, value: int) :
+        self.__reverseShow = value
+
     ReverseShow = property(get_reverseshow, set_reverseshow)
 
     def __PinMode(self, pin: int, mode: int) :
@@ -81,7 +81,7 @@ class LedBarController:
             self.__SendBits(0x00); #send cmd(0x00)
 
             for i in range(self.__lednum, 0, -1):
-                self.__SendBits(self.leds[i])
+                self.__SendBits(self.leds[i-1])
             
             for i in range (0, 12 - self.__lednum):
                 self.__SendBits(0x00)
@@ -93,9 +93,7 @@ class LedBarController:
                 self.__SendBits(self.leds[i])
 
             for i in range (0, 12 - self.__lednum):
-                self.__SendBits(0x00)
-            
-        self.__Latch()
+                self.__SendBits(0x00)            
     
     def SetLed(self, ledId: int, brightness: int):
             if ledId > self.__lednum:
@@ -106,7 +104,14 @@ class LedBarController:
 
             self.leds[ledId] = brightness
 
-            self.__Send()
+    def Show(self):
+        self.__Send()
+        self.__Latch()
+
+    def Clear(self):
+        for i in range (self.__lednum):
+            self.leds[i] = 0
+
         
         
 

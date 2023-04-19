@@ -60,8 +60,8 @@ namespace LedBar {
 
                 this.Send(0x00); //send cmd(0x00)
 
-                for (var i = this.LedNum; i-- > 0;) {
-                    this.Send(this.leds[i]);
+                for (var i = this.LedNum ; i> 0;i--) {
+                    this.Send(this.leds[i-1]);
                 }
                 for (uint i = 0; i < 12 - this.LedNum; i++) {
                     this.Send(0x00);
@@ -78,7 +78,7 @@ namespace LedBar {
                     this.Send(0x00);
                 }
             }
-            this.Latch();
+
         }
 
         private void Latch() {
@@ -107,8 +107,15 @@ namespace LedBar {
             brightness = brightness > 255 ? 255 : brightness;
 
             this.leds[ledIdx] = (byte)brightness;
-            this.Send();
         }
+
+        public void Show() {
+            this.Send();
+            this.Latch();
+        }
+
+        public void Clear() => Array.Clear(this.leds);
+
 
     }
 }
