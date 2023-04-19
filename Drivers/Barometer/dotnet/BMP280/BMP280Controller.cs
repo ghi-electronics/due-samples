@@ -56,16 +56,29 @@ namespace BMP280 {
             this.GetTemperature();
 
             var adc_P = this.ReadRegister24(BMP280_REG_PRESSUREDATA);
+           
+
             adc_P >>= 4;
             var1 = ((long)this.fine) - 128000;
+
+
             var2 = var1 * var1 * (long)this.dig_P6;
+
+            
+
             var2 = var2 + ((var1 * (long)this.dig_P5) << 17);
+
+ 
+  
             var2 = var2 + (((long)this.dig_P4) << 35);
+
             var1 = ((var1 * var1 * (long)this.dig_P3) >> 8) + ((var1 * (long)this.dig_P2) << 12);
             var1 = (((((long)1) << 47) + var1)) * ((long)this.dig_P1) >> 33;
             if (var1 == 0) {
                 return 0; // avoid exception caused by division by zero
             }
+
+           
             p = 1048576 - adc_P;
             p = (((p << 31) - var2) * 3125) / var1;
             var1 = (((long)this.dig_P9) * (p >> 13) * (p >> 13)) >> 25;
