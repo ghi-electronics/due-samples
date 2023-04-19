@@ -12,7 +12,7 @@ namespace LedBar {
         int pinClock;
         int pinData;
 
-        public uint LedNum { get; } = 10;
+        public int LedNum { get; } = 10;
         public bool ReverseShow { get; set; } = false;
 
         byte[] leds;
@@ -101,7 +101,7 @@ namespace LedBar {
             while (DateTime.Now.Ticks < expired) ;
         }
 
-        public void SetLed(uint ledIdx, int brightness) {
+        public void SetLed(int ledIdx, int brightness) {
             ledIdx = ledIdx > this.LedNum ? this.LedNum : ledIdx;
 
             brightness = brightness > 255 ? 255 : brightness;
