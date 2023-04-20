@@ -18,7 +18,7 @@ namespace SHT31 {
         public byte SlaveAddress { get; }
         public bool FastMode { get; set; } = false;
 
-        public SHT31Controller(DUEController due, byte slaveAddress) {
+        public SHT31Controller(DUEController due, byte slaveAddress = 0x44) {
             this.SlaveAddress = slaveAddress;
             this.dueController = due;
             this.Reset(false);
