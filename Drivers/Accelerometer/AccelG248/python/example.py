@@ -8,7 +8,6 @@ dueController = DUEController(availablePort)
 
 sensor = AccelG248Controller(dueController)
 
-
 while True:
     print(f"X = {sensor.X}, Y = {sensor.Y},  Z = {sensor.Z}")
     time.sleep(1)
