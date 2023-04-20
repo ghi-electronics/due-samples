@@ -22,7 +22,7 @@ namespace APA102 {
         const byte COMMAND_WRITE_ALL_LED_BRIGHTNESS = 0x77;
         const byte COMMAND_WRITE_ALL_LED_OFF = 0x78;
 
-        public int MaxLeds { get; private set; } = 10;
+        public int LedCount { get; private set; } = 10;
         public APA102Controller(DUEController dueController, byte slaveAddress = 0x23) {
             this.dueController = dueController;
             this.SlaveAddress = slaveAddress;
@@ -30,7 +30,7 @@ namespace APA102 {
 
         public void Set(int ledIndex, byte red, byte green, byte blue ) {
 
-            if (ledIndex >= this.MaxLeds || ledIndex < 0)
+            if (ledIndex >= this.LedCount || ledIndex < 0)
                 throw new Exception("ledIndex is out of range.");
 
             ledIndex++;
@@ -90,7 +90,7 @@ namespace APA102 {
 
             this.dueController.I2c.Write(this.SlaveAddress, data);
 
-            this.MaxLeds = newCount;
+            this.LedCount = newCount;
         }
      
 

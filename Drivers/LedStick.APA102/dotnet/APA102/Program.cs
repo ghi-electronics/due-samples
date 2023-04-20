@@ -18,16 +18,16 @@ while (true) {
     var green = (byte)(colors[colorIndex % 4] >> 8);
     var blue = (byte)(colors[colorIndex % 4] >> 0);
 
-    for (var i = 0; i < ledstick.MaxLeds; i++) {
+    for (var i = 0; i < ledstick.LedCount; i++) {
         if (i ==0) {
-            ledstick.Set(ledstick.MaxLeds-1, 0, 0, 0);
+            ledstick.Set(ledstick.LedCount-1, 0, 0, 0);
         }
         else
             ledstick.Set(i - 1, 0, 0, 0);
 
         ledstick.Set(i,red, green,blue);
 
-        Thread.Sleep(100);
+        //Thread.Sleep(100);
     }
     colorIndex++;
 }
