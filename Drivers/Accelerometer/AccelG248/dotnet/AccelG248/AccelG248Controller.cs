@@ -5,10 +5,11 @@ namespace Accelerometer {
     {
         DUEController dueController;
 
-        const byte SlaveAddress = 0x1C;
-        public AccelG248Controller(DUEController due)
+        private byte slaveAddres;
+        public AccelG248Controller(DUEController due, byte slaveAddress = 0x1C)
         {
             this.dueController = due;
+            this.slaveAddres = slaveAddress;
 
             this.WriteToRegister(0x2A, 1);
         }
@@ -17,7 +18,7 @@ namespace Accelerometer {
         {
             var writeData = new byte[2] { reg, value };
 
-            this.dueController.I2c.Write(SlaveAddress, writeData);
+            this.dueController.I2c.Write(this.slaveAddres, writeData);
 
         }
         private byte[] ReadFromRegister(byte reg, int count)
@@ -25,7 +26,7 @@ namespace Accelerometer {
             var writeData = new byte[1] { reg };
             var readData = new byte[count];
 
-            this.dueController.I2c.WriteRead(SlaveAddress, writeData, readData);
+            this.dueController.I2c.WriteRead(this.slaveAddres, writeData, readData);
 
             return readData;
         }
