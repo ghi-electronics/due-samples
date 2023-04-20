@@ -9,6 +9,7 @@ class AccelG248Controller:
     def __init__(self, dueController: DUEController, slaveAddress = 0x1C ) -> None:
         self.dueController = dueController
         self.slaveAddress = slaveAddress
+        self.__WriteRegister(0x2A, 1)
      
     def __WriteRegister(self, register: int, value: int) :      
         data = [register, value] 
