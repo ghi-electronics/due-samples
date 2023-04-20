@@ -13,9 +13,10 @@ namespace MMC5603NJ {
             get;
         }
 
-        public double X { get; private set; }
-        public double Y { get; private set; }
-        public double Z { get; private set; }
+
+        private int x;
+        private int y;
+        private int z;
 
         private int odr_cache = 0;
         private int ctrl2_cache = 0;
@@ -30,7 +31,7 @@ namespace MMC5603NJ {
                 throw new Exception("The device is not supported.");
 
             this.Reset();
-            this.SetDataRate(1000);
+
 
 
         }
@@ -123,9 +124,9 @@ namespace MMC5603NJ {
                 return temp;
             }
         }
-       
 
-        public void UpdateXYZ() {
+
+        private void Update() {
 
 
             if (!this.IsContinuousMode) {
@@ -141,21 +142,42 @@ namespace MMC5603NJ {
 
             this.dueController.I2c.WriteRead(this.SlaveAddress, dataWrite, 0, 1, dataRead, 0, 9);
 
-            var x = (uint)(dataRead[0] << 12) | (uint)(dataRead[1] << 4) | (uint)(dataRead[6] >> 4);
-            var y = (uint)(dataRead[2] << 12) | (uint)(dataRead[3] << 4) | (uint)(dataRead[7] >> 4);
-            var z = (uint)(dataRead[4] << 12) | (uint)(dataRead[5] << 4) | (uint)(dataRead[8] >> 4);
+            this.x = (int)((uint)(dataRead[0] << 12) | (uint)(dataRead[1] << 4) | (uint)(dataRead[6] >> 4));
+            this.y = (int)((uint)(dataRead[2] << 12) | (uint)(dataRead[3] << 4) | (uint)(dataRead[7] >> 4));
+            this.z = (int)((uint)(dataRead[4] << 12) | (uint)(dataRead[5] << 4) | (uint)(dataRead[8] >> 4));
 
-            x -= ((uint)1 << 19);
-            y -= ((uint)1 << 19);
-            z -= ((uint)1 << 19);
+            Console.WriteLine(string.Format("{0}, {1}, {2}, {3}", dataRead[0], dataRead[1], dataRead[6], this.x));
+            Console.WriteLine(string.Format("{0}, {1}, {2}, {3}", (uint)(dataRead[0] << 12), (uint)(dataRead[1] << 4), (uint)(dataRead[6] >> 4), this.x));
 
-            this.X = x * 0.00625; // scale to uT by LSB in datasheet
-            this.Y = y * 0.00625;
-            this.Z = z * 0.00625;
+            this.x = (int)(this.x - ((uint)1 << 19));
+            this.y = (int)(this.y - ((uint)1 << 19));
+            this.z = (int)(this.z - ((uint)1 << 19));
 
 
+            //Console.WriteLine(string.Format("{0}, {1}, {2}, {3}", dataRead[0], dataRead[1], dataRead[6], this.x));
 
         }
+
+        public double X {
+            get {
+                this.Update();
+               
+                return this.x * 0.00625;
+            }
+        }
+        public double Y {
+            get {
+                this.Update();
+                return this.y * 0.00625;
+            }
+        }
+        public double Z {
+            get {
+                this.Update();
+                return this.z * 0.00625;
+            }
+        }
+
 
         private void WriteRegister(byte register, byte value) {
             var data = new byte[] { register, value };
