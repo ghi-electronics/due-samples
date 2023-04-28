@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+    <header>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>DUE's Demo</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" href="styles.css">
+        <script src="duedemo.js?1"></script>
+		
+		<style>
+			.center {
+			  padding: 10px;
+			}
+		</style>
+
+    </header>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="navbar-brand">
+                <img class="d-inline align-top mr-2" src="https://duelink.com/images/logo.png" /> 
+                <div class="d-inline align-middle">DUE's Demo</div>
+            </div>
+        </nav>
+        
+        <div id="id-connect" class="alert alert-primary" role="alert">
+            <span>
+                <svg class="align-middle mr-2" focusable="false" width="24" height="24" aria-hidden="true">
+                    <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"></path>
+                </svg>
+            </span>
+            Press
+            <button class="btn btn-outline-primary ml-1 mr-1" onclick="connect()">
+                <span>
+                    <svg class="align-middle" focusable="false" width="24" height="24" aria-hidden="true">
+                        <path d="M15 7v4h1v2h-3V5h2l-3-4-3 4h2v8H8v-2.07c.7-.37 1.2-1.08 1.2-1.93 0-1.21-.99-2.2-2.2-2.2-1.21 0-2.2.99-2.2 2.2 0 .85.5 1.56 1.2 1.93V13c0 1.11.89 2 2 2h3v3.05c-.71.37-1.2 1.1-1.2 1.95 0 1.22.99 2.2 2.2 2.2 1.21 0 2.2-.98 2.2-2.2 0-.85-.49-1.58-1.2-1.95V15h3c1.11 0 2-.89 2-2v-2h1V7h-4z"></path>
+                    </svg>
+                </span>
+            </button>
+            to connect to your device 
+        </div>
+
+        <div id="id-interaction" class="container">
+            <fieldset id="id-inputs" class="border p-3" disabled="true" >
+                <div class="row">                    
+                    <div class="center">
+						<div class="center">							
+							<label>Input text:</label>							
+							<input type="text" id="textsendid" name ="textsendname" value ="Hello world!"/>
+							<button class="btn btn-primary" onclick="sendText()">Send (to Pulse only)</button>
+						</div>
+												
+                        <div class="center">
+							<button class="btn btn-primary" onclick="sendLedOn()">Led On</button>
+							<button class="btn btn-primary" onclick="sendLedOff()">Led Off</button>
+                        </div>
+												
+						<div class="center">
+							<button class="btn btn-primary" onclick="playSound()">Play sound (on Pulse only)</button>
+						</div>	
+						
+                    </div>
+									
+                </div>
+                
+            </fieldset>
+
+        </div>
+
+        <div id="id-status" style="display:none">
+            <div class="alert alert-success" role="alert">
+                <span>
+                    <svg class="align-middle mr-2" style="fill:Green" focusable="false" width="24" height="24" aria-hidden="true">
+                        <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"></path>
+                    </svg>
+                </span>
+                <span id="status-message"></span>
+            </div>
+        </div>
+
+        <div id="id-error" style="display: none;">
+            <div class="alert alert-danger" role="alert">
+                <span>
+                    <svg class="align-middle mr-2" style="fill:red" focusable="false" width="24" height="24" aria-hidden="true">
+                        <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"></path>
+                    </svg>
+                </span>
+                <span id="error-message"></span>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+    let duedemo = new SerialWebUSB(2, 1);
+
+    async function connect(){
+        try {
+            hideError();
+            await duedemo.connect([{usbVendorId:0x1B9F}]);
+            $("#id-connect").slideUp();
+            $("#id-inputs").prop("disabled", false);
+        } catch(e){
+            showError("connect Error" + e);
+        }
+    }
+
+    async function sendUpdate(){
+        let port = parseInt($("#port").val());
+        let pin = parseInt($("#pin").val());
+        let state = $("#state").val();
+        let command = ((port*16)+pin)+"="+state;
+		
+        await duedemo.sendString(command);
+        let response = await duedemo.readString();
+        showStatus(command);
+    }
+	
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+	
+	async function sendLedOn() {
+		let command = "dwrite(100,1)\n";
+		await duedemo.sendString(command);
+	}
+	
+	async function sendLedOff() {
+		let command = "dwrite(100,0)\n";
+		await duedemo.sendString(command);
+	}
+	
+	async function playSound() {
+		let command = "sound(1000,100,100)\n";
+		await duedemo.sendString(command);
+	}
+	
+	async function sendText() {
+
+		let command = "lcdclear(0)\n";
+		await duedemo.sendString(command);
+		
+		await sleep(100);	
+
+		let command0 = "lcdtexts(\"" + $("#textsendid").val() + "\", 1, 0, 0, 1,1)\n";
+		
+		await duedemo.sendString(command0);
+		
+		await sleep(100);
+		
+		let command1 = "lcdshow()\n";
+		await duedemo.sendString(command1);
+		
+		await sleep(100);		
+	}
+
+    function hideError(){
+        $("#id-error").hide();
+    }
+
+    function showStatus(message) {
+        $("#id-inputs").prop("disabled", true);
+        hideError();
+        $("#id-status").show();
+        $("#status-message").text(message);
+        $.when($("#id-status").fadeOut(1000)).done(
+            function(){$("#id-inputs").prop("disabled", false);}
+        );
+    }
+
+    function showError(message){
+        $("#id-inputs").prop("disabled", true);
+        $("#id-error").show();
+        $("#error-message").text(message);
+    }
+</script>
