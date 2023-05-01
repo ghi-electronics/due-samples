@@ -188,7 +188,7 @@ namespace CppCLRWinFormsProject {
 
             serialport->Open();
 
-            serialport->Write("dwrite(100,1)\n");
+            serialport->Write("dwrite(108,1)\n");
 
             serialport->Close();
         }
@@ -200,7 +200,7 @@ namespace CppCLRWinFormsProject {
 
             serialport->Open();
 
-            serialport->Write("dwrite(100,0)\n");
+            serialport->Write("dwrite(108,0)\n");
 
             serialport->Close();
         }

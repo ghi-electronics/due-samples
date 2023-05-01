@@ -14,7 +14,7 @@ def TurnLed(on: bool):
         dev.Digital.Write(108, 0)
 
 def PlaySound():
-    dev.Sound.Play(1000, 500, 100)
+    dev.Sound.Play(1000, 100, 100)
 
 def SendText(text: str):
     dev.Display.Clear(0)

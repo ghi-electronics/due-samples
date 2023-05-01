@@ -55,7 +55,7 @@ class ViewController: NSViewController {
 
     @IBAction func turnledon(_ sender: Any) {
         
-        let ledon = "dwrite(100,1)";
+        let ledon = "dwrite(108,1)";
         
         SendCmd(cmd: ledon);
         
@@ -65,7 +65,7 @@ class ViewController: NSViewController {
     }
     
     @IBAction func ledoffclick(_ sender: Any) {
-        let ledoff = "dwrite(100,0)";
+        let ledoff = "dwrite(108,0)";
         SendCmd(cmd: ledoff);
     }
     @IBOutlet weak var gettext: NSTextField!

@@ -27,7 +27,7 @@ namespace Demo
 
             var dev = new DUEController(port);
 
-            dev.Led.Set(1, 0, -1);
+            dev.Digital.Write((int)DUEController.Pin.Led, true);
 
             dev.Disconnect();
         }
@@ -38,7 +38,7 @@ namespace Demo
 
             var dev = new DUEController(port);
 
-            dev.Led.Set(0, 1, -1);
+            dev.Digital.Write((int)DUEController.Pin.Led, false);
 
             dev.Disconnect();
         }
