@@ -72,7 +72,7 @@ namespace CppCLRWinFormsProject {
             // 
             // btSend
             // 
-            this->btSend->Location = System::Drawing::Point(206, 149);
+            this->btSend->Location = System::Drawing::Point(229, 146);
             this->btSend->Name = L"btSend";
             this->btSend->Size = System::Drawing::Size(413, 53);
             this->btSend->TabIndex = 0;
@@ -85,21 +85,21 @@ namespace CppCLRWinFormsProject {
             this->label1->AutoSize = true;
             this->label1->Location = System::Drawing::Point(103, 97);
             this->label1->Name = L"label1";
-            this->label1->Size = System::Drawing::Size(97, 25);
+            this->label1->Size = System::Drawing::Size(91, 25);
             this->label1->TabIndex = 1;
-            this->label1->Text = L"Input text:";
+            this->label1->Text = L"Input text";
             this->label1->Click += gcnew System::EventHandler(this, &Form1::label1_Click);
             // 
             // textid
             // 
-            this->textid->Location = System::Drawing::Point(206, 97);
+            this->textid->Location = System::Drawing::Point(229, 93);
             this->textid->Name = L"textid";
             this->textid->Size = System::Drawing::Size(413, 29);
             this->textid->TabIndex = 2;
             // 
             // btSound
             // 
-            this->btSound->Location = System::Drawing::Point(206, 232);
+            this->btSound->Location = System::Drawing::Point(229, 219);
             this->btSound->Name = L"btSound";
             this->btSound->Size = System::Drawing::Size(413, 53);
             this->btSound->TabIndex = 3;
@@ -109,7 +109,7 @@ namespace CppCLRWinFormsProject {
             // 
             // btLedon
             // 
-            this->btLedon->Location = System::Drawing::Point(206, 309);
+            this->btLedon->Location = System::Drawing::Point(229, 297);
             this->btLedon->Name = L"btLedon";
             this->btLedon->Size = System::Drawing::Size(200, 53);
             this->btLedon->TabIndex = 4;
@@ -119,7 +119,7 @@ namespace CppCLRWinFormsProject {
             // 
             // btLedoff
             // 
-            this->btLedoff->Location = System::Drawing::Point(419, 309);
+            this->btLedoff->Location = System::Drawing::Point(442, 297);
             this->btLedoff->Name = L"btLedoff";
             this->btLedoff->Size = System::Drawing::Size(200, 53);
             this->btLedoff->TabIndex = 5;
@@ -130,15 +130,15 @@ namespace CppCLRWinFormsProject {
             // label2
             // 
             this->label2->AutoSize = true;
-            this->label2->Location = System::Drawing::Point(70, 41);
+            this->label2->Location = System::Drawing::Point(12, 38);
             this->label2->Name = L"label2";
-            this->label2->Size = System::Drawing::Size(130, 25);
+            this->label2->Size = System::Drawing::Size(207, 25);
             this->label2->TabIndex = 6;
-            this->label2->Text = L"Input comport";
+            this->label2->Text = L"Input comport (COMx)";
             // 
             // comport
             // 
-            this->comport->Location = System::Drawing::Point(206, 41);
+            this->comport->Location = System::Drawing::Point(229, 38);
             this->comport->Name = L"comport";
             this->comport->Size = System::Drawing::Size(103, 29);
             this->comport->TabIndex = 7;
@@ -171,14 +171,31 @@ namespace CppCLRWinFormsProject {
 
             SerialPort^ serialport = gcnew SerialPort();
 
-            serialport->PortName = this->comport->Text;
+            serialport->PortName = this->comport->Text->ToUpper();
+
+            if (serialport->PortName->Contains("COM") == false) {
+                serialport->PortName = "COM" + serialport->PortName;
+            }
+
             serialport->BaudRate = 9600;
 
-            serialport->Open();
+            try {
+                serialport->Open();
+            }
+            catch (Exception^ e)
+            {
+                MessageBox::Show("Could not open the port " + serialport->PortName);
 
-            serialport->Write("sound(1000,100,100)\n");
+                return;
+            }
 
-            serialport->Close();
+            if (serialport->IsOpen) {
+
+                serialport->Write("sound(1000,100,100)\n");
+
+                serialport->Close();
+            }
+          
         }
         private: System::Void btLedon_Click(System::Object^ sender, System::EventArgs^ e) {
             SerialPort^ serialport = gcnew SerialPort();
@@ -186,11 +203,28 @@ namespace CppCLRWinFormsProject {
             serialport->PortName = this->comport->Text;
             serialport->BaudRate = 9600;
 
-            serialport->Open();
+            serialport->PortName = this->comport->Text->ToUpper();
 
-            serialport->Write("dwrite(108,1)\n");
+            if (serialport->PortName->Contains("COM") == false) {
+                serialport->PortName = "COM" + serialport->PortName;
+            }
 
-            serialport->Close();
+            try {
+                serialport->Open();
+            }
+            catch (Exception^ e)
+            {
+                MessageBox::Show("Could not open the port " + serialport->PortName);
+
+                return;
+            }
+
+            if (serialport->IsOpen) {
+
+                serialport->Write("dwrite(108,1)\n");
+
+                serialport->Close();
+            }
         }
         private: System::Void btLedoff_Click(System::Object^ sender, System::EventArgs^ e) {
             SerialPort^ serialport = gcnew SerialPort();
@@ -198,11 +232,28 @@ namespace CppCLRWinFormsProject {
             serialport->PortName = this->comport->Text;
             serialport->BaudRate = 9600;
 
-            serialport->Open();
+            serialport->PortName = this->comport->Text->ToUpper();
 
-            serialport->Write("dwrite(108,0)\n");
+            if (serialport->PortName->Contains("COM") == false) {
+                serialport->PortName = "COM" + serialport->PortName;
+            }
 
-            serialport->Close();
+            try {
+                serialport->Open();
+            }
+            catch (Exception^ e)
+            {
+                MessageBox::Show("Could not open the port " + serialport->PortName);
+
+                return;
+            }
+
+            if (serialport->IsOpen) {
+
+                serialport->Write("dwrite(108,0)\n");
+
+                serialport->Close();
+            }
         }
         private: System::Void btSend_Click(System::Object^ sender, System::EventArgs^ e) {
             SerialPort^ serialport = gcnew SerialPort();
@@ -210,15 +261,32 @@ namespace CppCLRWinFormsProject {
             serialport->PortName = this->comport->Text;
             serialport->BaudRate = 9600;
 
-            serialport->Open();
+            serialport->PortName = this->comport->Text->ToUpper();
 
-            serialport->Write("lcdclear(0)\n");
-            System::Threading::Thread::Sleep(100);
-            serialport->Write("lcdtexts(\"" + this->textid->Text + "\", 1, 0, 0, 1, 1)\n");
-            System::Threading::Thread::Sleep(100);
-            serialport->Write("lcdshow()\n");
+            if (serialport->PortName->Contains("COM") == false) {
+                serialport->PortName = "COM" + serialport->PortName;
+            }
 
-            serialport->Close();
+            try {
+                serialport->Open();
+            }
+            catch (Exception^ e)
+            {
+                MessageBox::Show("Could not open the port " + serialport->PortName);
+
+                return;
+            }
+
+            if (serialport->IsOpen) {
+
+                serialport->Write("lcdclear(0)\n");
+                System::Threading::Thread::Sleep(100);
+                serialport->Write("lcdtexts(\"" + this->textid->Text + "\", 1, 0, 0, 1, 1)\n");
+                System::Threading::Thread::Sleep(100);
+                serialport->Write("lcdshow()\n");
+
+                serialport->Close();
+            }
         }
     };
 }
