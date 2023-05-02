@@ -2,6 +2,7 @@
 
 
 using DUE.Graphics;
+using GHIElectronics.DUE;
 using static GHIElectronics.DUE.DUEController;
 using static GHIElectronics.DUE.DUEController.ButtonController;
 
@@ -32,7 +33,7 @@ partial class Bird {
         this.startX = x;
         this.startY = this.y = y;
 
-        btn.Enable((int)Buttons.B, true);
+        btn.Enable((int)DUEController.Pin.ButtonB, true);
     }
 
     public void Reset() {
@@ -59,7 +60,7 @@ partial class Bird {
     }
 
     private void Fly() {
-        if (this.btn.IsPressed((int)Buttons.B)) {
+        if (this.btn.IsPressed((int)DUEController.Pin.ButtonB)) {
             this.fallTimer = FALL_DELAY;
             if (this.y > 0) {
                 this.y--;

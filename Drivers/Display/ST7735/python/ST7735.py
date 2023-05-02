@@ -156,7 +156,7 @@ class ST7735CommandId:
         GAMCTRN1 = 0xE1
 
 class ST7735Controller:
-    internalBuffer = bytearray(int(160*128*2))
+    internalBuffer = [0]*(160*128)
     buffer1 = bytearray(1)
     buffer4 = bytearray(4)
     Width = 160
@@ -340,23 +340,50 @@ class ST7735Controller:
                 data[i + 1] = t
 
 
-    def ShowData(self, data: bytearray, offset: int, length: int, _4bpp = False) :
-        if data == 0 or (offset+ length) > len(data):
+    def DrawBuffer(self, color, offset: int, length: int, _4bpp = False) :
+        if color == 0 or (offset+ length) > len(color):
             raise ("Argument out of range exception")
         
+        buffer: bytearray
+
+        if (_4bpp) :
+            buffer = bytearray(int(length / 2))
+            
+
+            for i in range(len(buffer)):
+              
+
+                buffer[i] = (((color[(i + offset) * 2] << 4) | color[(i + offset) * 2 + 1]))
+            
+        else :
+            buffer = bytearray(int(length *2 ))
+            i = 0
+            for y in range(self.Height):
+                for x in range(self.Width):
+                    index = (y * self.Width + x) * 2
+                    clr = color[i + offset]
+
+                    buffer[index + 0] =(((clr & 0b0000_0000_0000_0000_0001_1100_0000_0000) >> 5) | ((clr & 0b0000_0000_0000_0000_0000_0000_1111_1000) >> 3))
+                    buffer[index + 1] =(((clr & 0b0000_0000_1111_1000_0000_0000_0000_0000) >> 16) | ((clr & 0b0000_0000_0000_0000_1110_0000_0000_0000) >> 13))
+                    i += 1
+
+                
+            
+        
+    
         self.SendDrawCommand()
 
         if _4bpp:
-            self.dueController.Spi.Write4bpp(data, offset, length, self.chipselectPin)
+            self.dueController.Spi.Write4bpp(buffer, offset, length, self.chipselectPin)
             return
         
-        self.__SwapEndianness(data)
-        self.dueController.Spi.Write(data, 0, len(data), self.chipselectPin)
-        self.__SwapEndianness(data)
+        self.__SwapEndianness(buffer)
+        self.dueController.Spi.Write(buffer, 0, len(buffer), self.chipselectPin)
+        self.__SwapEndianness(buffer)
 
 
     def Show(self) :                                 
-        self.ShowData(self.internalBuffer, 0, len(self.internalBuffer))  
+        self.DrawBuffer(self.internalBuffer, 0, len(self.internalBuffer))  
 
     def Clear(self):
         for i in range(len(self.internalBuffer)):
@@ -367,11 +394,13 @@ class ST7735Controller:
         if (x < 0 or y < 0 or  x >= self.Width or y >= self.Height):
             return
         
-        index = (y * self.Width + x) * 2
-        clr = color
+        self.internalBuffer[y * self.Width + x] = color
+        
+        #index = (y * self.Width + x) * 2
+        #clr = color
 
-        self.internalBuffer[index + 0] = (((clr & 0b0000_0000_0000_0000_0001_1100_0000_0000) >> 5) | ((clr & 0b0000_0000_0000_0000_0000_0000_1111_1000) >> 3))
-        self.internalBuffer[index + 1] = (((clr & 0b0000_0000_1111_1000_0000_0000_0000_0000) >> 16) | ((clr & 0b0000_0000_0000_0000_1110_0000_0000_0000) >> 13))
+        #self.internalBuffer[index + 0] = (((clr & 0b0000_0000_0000_0000_0001_1100_0000_0000) >> 5) | ((clr & 0b0000_0000_0000_0000_0000_0000_1111_1000) >> 3))
+        #self.internalBuffer[index + 1] = (((clr & 0b0000_0000_1111_1000_0000_0000_0000_0000) >> 16) | ((clr & 0b0000_0000_0000_0000_1110_0000_0000_0000) >> 13))
 
     
 

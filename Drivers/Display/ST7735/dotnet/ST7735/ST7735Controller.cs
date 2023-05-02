@@ -66,7 +66,7 @@ namespace ST7735 {
         private readonly byte[] buffer1 = new byte[1];
         private readonly byte[] buffer4 = new byte[4];
 
-        private byte[] internalBuffer;
+        private uint[] internalBuffer;
 
         private readonly int controlPin;
         private readonly int resetPin;
@@ -93,7 +93,7 @@ namespace ST7735 {
 
             this.Enable();
 
-            this.internalBuffer = new byte[this.Width * this.Height * 2];
+            this.internalBuffer = new uint[this.Width * this.Height];
         }
 
         private void Reset() {
@@ -270,35 +270,62 @@ namespace ST7735 {
             }
         }
 
-        public void Show() => this.Show(this.internalBuffer);
-        public void Show(byte[] buffer, bool _4bpp = false) => this.Show(buffer, 0, (uint)buffer.Length, _4bpp);
-        public void Show(byte[] buffer, uint offset, uint length, bool _4bpp = false) {
-            if (buffer == null || (offset + length > buffer.Length))
+        public void Show() => this.DrawBuffer(this.internalBuffer, 0, this.internalBuffer.Length, false);        
+        public void DrawBuffer(uint[] color, uint offset, int length, bool _4bpp = false) {
+            if (color == null || (offset + length > color.Length))
                 throw new ArgumentOutOfRangeException();
+
+            byte[] buffer;
+
+            if (_4bpp) {
+                buffer = new byte[length / 2];
+
+                for (var i = 0; i < buffer.Length; i++) {                  
+                    buffer[i] = (byte)((color[(i + offset) * 2] << 4) | color[(i + offset) * 2 + 1]);
+                }
+
+            }
+            else {
+                buffer = new byte[length * 2];
+                var i = 0;
+                for (var y = 0; y < this.Height; y++) {
+                    for (var x = 0; x < this.Width; x++) {
+                        var index = (y * this.Width + x) * 2;
+                        var clr = color[i + offset];
+
+                        buffer[index + 0] = (byte)(((clr & 0b0000_0000_0000_0000_0001_1100_0000_0000) >> 5) | ((clr & 0b0000_0000_0000_0000_0000_0000_1111_1000) >> 3));
+                        buffer[index + 1] = (byte)(((clr & 0b0000_0000_1111_1000_0000_0000_0000_0000) >> 16) | ((clr & 0b0000_0000_0000_0000_1110_0000_0000_0000) >> 13));
+                        i++;
+
+                    }
+                }
+            }
 
             this.SendDrawCommand();
 
             if (_4bpp) {
-                this.dueController.Spi.Write4bpp(buffer, (int)offset, (int)length, this.chipselectPin);
+                this.dueController.Spi.Write4bpp(buffer, 0, buffer.Length, this.chipselectPin);
 
                 return;
             }
 
             SwapEndianness(buffer);
 
-            this.dueController.Spi.Write(buffer, this.chipselectPin);
-
-            SwapEndianness(buffer);
+            this.dueController.Spi.Write(buffer, 0, buffer.Length, this.chipselectPin);
+            
+            //SwapEndianness(buffer);
         }
         public void Clear() => Array.Clear(this.internalBuffer);
         public void SetPixel(int x, int y, uint color) {
             if (x < 0 || y < 0 || x >= this.Width || y >= this.Height) return;
 
-            var index = (y * this.Width + x) * 2;
-            var clr = color;
+            this.internalBuffer[y * this.Width + x] = color;
 
-            this.internalBuffer[index + 0] = (byte)(((clr & 0b0000_0000_0000_0000_0001_1100_0000_0000) >> 5) | ((clr & 0b0000_0000_0000_0000_0000_0000_1111_1000) >> 3));
-            this.internalBuffer[index + 1] = (byte)(((clr & 0b0000_0000_1111_1000_0000_0000_0000_0000) >> 16) | ((clr & 0b0000_0000_0000_0000_1110_0000_0000_0000) >> 13));
+            //var index = (y * this.Width + x) * 2;
+            //var clr = color;
+
+            //this.internalBuffer[index + 0] = (byte)(((clr & 0b0000_0000_0000_0000_0001_1100_0000_0000) >> 5) | ((clr & 0b0000_0000_0000_0000_0000_0000_1111_1000) >> 3));
+            //this.internalBuffer[index + 1] = (byte)(((clr & 0b0000_0000_1111_1000_0000_0000_0000_0000) >> 16) | ((clr & 0b0000_0000_0000_0000_1110_0000_0000_0000) >> 13));
         }
 
         public void DrawString(string text, uint color, int x, int y) => this.DrawString(text, color, x, y, 1, 1);

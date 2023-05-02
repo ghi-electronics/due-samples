@@ -1,5 +1,4 @@
 from DUE.DUEController import DUEController
-from DUE.Button import ButtonController
 import time
 import math
 import random
@@ -18,12 +17,12 @@ x = 0
 y = 0
 p = 0
 
-dueController.Button.Enable(ButtonController.Buttons.A, True)
+dueController.Button.Enable(DUEController.Pin.ButtonA, True)
 
 # Handle the player
 def plyr():
     global w,u,v,t,b,h,g,x,y,p
-    if (dueController.Button.IsPressed(ButtonController.Buttons.A)):
+    if (dueController.Button.IsPressed(DUEController.Pin.ButtonA)):
         if v > 0:
             v -=1
         t = 1
@@ -35,11 +34,11 @@ def plyr():
     x = u
     y = math.trunc(v)
     pxl()
-    dueController.Neo.SetColor(p, 64, 0, 64)
+    dueController.Neo.SetColor(p, 0x400040)
     x=x-1
     y=y+t
     pxl()
-    dueController.Neo.SetColor(p, 64,0,64)
+    dueController.Neo.SetColor(p, 0x400040)
     return
 
 
@@ -57,11 +56,11 @@ def wall():
 
         for y in range (h+1):
             pxl()
-            dueController.Neo.SetColor(p, 0,64,0)
+            dueController.Neo.SetColor(p, 0x004000)
         
         for y in range (h+g, 16):
             pxl()
-            dueController.Neo.SetColor(p, 0,64,0)
+            dueController.Neo.SetColor(p, 0x004000)
     return        
     
 # Check collision
@@ -85,7 +84,7 @@ def die():
         y = (v - 2) + random.randrange(4)
 
         pxl()
-        dueController.Neo.SetColor(p, random.randrange(64),0,0)
+        dueController.Neo.SetColor(p, 0x400000)
         dueController.Neo.Show(256)
     b = 15
 

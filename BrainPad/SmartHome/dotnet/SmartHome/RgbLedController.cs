@@ -16,20 +16,25 @@ namespace SmartHome {
             if (ledIndex > 3 || ledIndex < 0)
                 throw new Exception("Led id must be in range [0.3]");
 
-            this.dueController.Neo.SetColor(ledIndex, red, green, blue);
+            var color = (uint)(red << 16 | green << 8 | blue);
+
+            this.dueController.Neo.SetColor(ledIndex, color);
 
             this.dueController.Neo.Show(this.LedMax);
         }
         public void TurnOff() {
             for (var i = 0; i < this.LedMax; i++) {
-                this.dueController.Neo.SetColor(i, 0, 0, 0);
+                this.dueController.Neo.SetColor(i, 0);
             }
             this.dueController.Neo.Show(this.LedMax);
         }
 
         public void TurnOn(byte red, byte green, byte blue) {
             for (var i = 0; i < this.LedMax; i++) {
-                this.dueController.Neo.SetColor(i, red, green, blue);
+
+                var color = (uint)(red << 16 | green << 8 | blue);
+
+                this.dueController.Neo.SetColor(i, color);
             }
             this.dueController.Neo.Show(this.LedMax);
         }

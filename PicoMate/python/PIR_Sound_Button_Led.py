@@ -22,7 +22,7 @@ dueController = DUEController(availablePort)
 buttonPressed = False
 moveDetected = False
 
-dueController.Neo.SetColor(0, 0, 255, 0) # Led Green
+dueController.Neo.SetColor(0, 0x00FF00) # Led Green
 dueController.Neo.Show(1)
 
 buttonPin = 26
@@ -37,10 +37,10 @@ while (True) :
         buttonPressed = buttonState
 
         if (buttonPressed):
-            dueController.Neo.SetColor(0, 255, 255, 255); # led while
+            dueController.Neo.SetColor(0, 0xFFFFFF); # led while
         
         else :
-            dueController.Neo.SetColor(0, 0, 255, 0); # led green
+            dueController.Neo.SetColor(0, 0x00FF00); # led green
         
 
         dueController.Neo.Show(1)
@@ -55,11 +55,11 @@ while (True) :
         moveDetected = pirState
 
         if (moveDetected) :
-            dueController.Neo.SetColor(0, 255, 0, 0) # led read
+            dueController.Neo.SetColor(0, 0xFF0000) # led read
             print("Moving detected!")
         
         else :
-            dueController.Neo.SetColor(0, 0, 255, 0) # led green
+            dueController.Neo.SetColor(0, 0x00FF00) # led green
             print("Moving stopped!")
         
 

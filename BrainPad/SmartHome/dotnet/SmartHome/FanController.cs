@@ -31,10 +31,10 @@ namespace SmartHome {
 
             if (reverse) {
                 this.dueController.Digital.Write(this.pinPlus, false);                
-                this.dueController.PWM.Set(this.pinMinus, dutycyle);
+                this.dueController.Analog.Write(this.pinMinus, dutycyle);
             }
             else {                ;
-                this.dueController.PWM.Set(this.pinPlus, dutycyle);
+                this.dueController.Analog.Write(this.pinPlus, dutycyle);
                 this.dueController.Digital.Write(this.pinMinus, false);
             }
 

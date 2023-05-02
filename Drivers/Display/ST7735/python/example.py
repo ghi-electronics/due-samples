@@ -19,14 +19,15 @@ screen.DrawString("DUE ST7735", 0x00FF00, 5, 5)
 
 screen.Show()
 
-# 4bpp example
-#
-#data = bytearray(int(160 * 128 / 2))
-#color = 0
+# 4bpp example - show Pallete
+data = [0] * (160*128)
+color = 0
 
-#for i in range (0, len(data), 640):
-#    for c in range (i, i + 640):
-#        data[c] = color << 4 | color
-#    color = color + 1
+for y in range (128):
+    for x in range (160):
+        data[y * 160 + x] = color
+    
+    if (((y % 8) == 0) and (y != 0)):
+        color += 1
 
-#screen.ShowData(data, 0, len(data) ,True)
+screen.DrawBuffer(data, 0, len(data) ,True)

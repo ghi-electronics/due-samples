@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using GHIElectronics.DUE;
 
 var port = DUEController.GetConnectionPort();
@@ -18,16 +19,18 @@ screen.Clear();
 screen.DrawString("DUE - ST7735", 0x00FF00, 5, 5);
 screen.Show();
 
-// This for 4bpp - show Pallete
-var data = new byte[160 * 128 / 2];
-byte color = 0;
+Thread.Sleep(1000);
 
-for (var i = 0; i < data.Length; i += 640) {
-    for (var c = i; c < i + 640; c++) {
-        data[c] = (byte)((color << 4) | color);
+// This for 4bpp - show Pallete
+var data = new uint[160 * 128];
+byte color = 0;
+for (var y = 0; y < 128; y++) {
+    for (var x = 0; x < 160; x++) {
+        data[y * 160 + x] = color;
     }
 
-    color++;
+    if (y % 8 == 0 && y != 0)
+        color++;
 }
-screen.Show(data, true);
+screen.DrawBuffer(data, 0, data.Length, true);
 

@@ -13,8 +13,8 @@ namespace SpriteMaster {
         public SpriteMaster(DUEController bp) {
             this.dueController = bp;
 
-            this.dueController.Button.Enable((int)Buttons.B, true);
-            this.dueController.Button.Enable((int)Buttons.A, true);
+            this.dueController.Button.Enable((int)DUEController.Pin.ButtonB, true);
+            this.dueController.Button.Enable((int)DUEController.Pin.ButtonA, true);
         }
         public void Run() {
 
@@ -147,10 +147,10 @@ namespace SpriteMaster {
                     }
                 }
                 else {
-                    var buttonPressed = this.dueController.Button.IsPressed((int)Buttons.A);
+                    var buttonPressed = this.dueController.Button.IsPressed((int)DUEController.Pin.ButtonA);
 
                     if (!buttonPressed)
-                        buttonPressed = this.dueController.Button.IsPressed((int)Buttons.B);
+                        buttonPressed = this.dueController.Button.IsPressed((int)DUEController.Pin.ButtonB);
 
                     if (buttonPressed) {
                         bullet.Y = 64;
@@ -208,7 +208,7 @@ namespace SpriteMaster {
                     enemy3.Y = 10;
                 }
                 
-                this.dueController.Display.Stream(basicGfx.Buffer);
+                this.dueController.Display.DrawBuffer(basicGfx.Buffer, 0, basicGfx.Buffer.Length);
 
                 // Delay for 20fps max
 

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GHIElectronics.DUE" Version="0.0.0.8003" />
+    <PackageReference Include="GHIElectronics.DUE" Version="0.0.0.8006" />
   </ItemGroup>
 
 </Project>

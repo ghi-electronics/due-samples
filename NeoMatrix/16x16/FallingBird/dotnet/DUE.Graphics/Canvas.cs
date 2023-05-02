@@ -2,14 +2,14 @@ using DUE.Graphics;
 
 namespace DUE.Graphics {
     public class Canvas {
-        private readonly byte[] pixels;
+        private readonly uint[] pixels;
         private readonly int width;
         private readonly int height;
         private readonly Func<int, int, int, int> pixelMapper;
-        private readonly Action<byte[]> renderer;
+        private readonly Action<uint[]> renderer;
 
-        public Canvas(int width, int height, Func<int, int, int, int> pixelMapper, Action<byte[]> renderer) {
-            this.pixels = new byte[width * height * 3];
+        public Canvas(int width, int height, Func<int, int, int, int> pixelMapper, Action<uint[]> renderer) {
+            this.pixels = new uint[width * height];
             this.width = width;
             this.height = height;
             this.pixelMapper = pixelMapper;
@@ -21,9 +21,13 @@ namespace DUE.Graphics {
             if (y < 0 || y >= this.height) return;
 
             var offset = this.pixelMapper(x, y, this.width);
-            this.pixels[offset + 0] = color.G;
-            this.pixels[offset + 1] = color.R;
-            this.pixels[offset + 2] = color.B;
+
+            this.pixels[offset] = (uint)(color.G << 16 | color.R << 8 | color.B);
+
+
+            //this.pixels[offset + 0] = color.G;
+            //this.pixels[offset + 1] = color.R;
+            //this.pixels[offset + 2] = color.B;
         }
 
         public Color GetPixel(int x, int y) {
@@ -31,9 +35,15 @@ namespace DUE.Graphics {
             if (y < 0 || y >= this.height) return Color.Black;
 
             var offset = this.pixelMapper(x, y, this.width);
-            var g = this.pixels[offset + 0];
-            var r = this.pixels[offset + 1];
-            var b = this.pixels[offset + 2];
+
+            //var g = this.pixels[offset + 0];
+            //var r = this.pixels[offset + 1];
+            //var b = this.pixels[offset + 2];
+
+            var g = (byte)((this.pixels[offset] >> 16) & 0xFF);
+            var r = (byte)((this.pixels[offset] >> 8) & 0xFF);
+            var b = (byte)((this.pixels[offset] >> 0) & 0xFF);
+
             return Color.FromRGB(r, g, b);
         }
 
@@ -134,7 +144,7 @@ namespace DUE.Graphics {
             }
         }
 
-        public void Clear() => Array.Fill<byte>(this.pixels, 0);
+        public void Clear() => Array.Fill<uint>(this.pixels, 0);
         public void Render() => this.renderer(this.pixels);
 
         public int Width => this.width;

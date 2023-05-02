@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 namespace SpriteMaster {
     internal class BasicGraphics {
         
-        private byte[] buffer;
+        private uint[] buffer;
         private int width;
         private int height;
 
         public int Width { get => this.width; set => this.width = value; }
         public int Height { get => this.height; set => this.height = value; }        
-        public byte[] Buffer => this.buffer;
+        public uint[] Buffer => this.buffer;
 
 
         public BasicGraphics(uint width, uint height) {            
             this.width = (int)width;
             this.height = (int)height;
 
-            this.buffer = new byte[this.width * this.height / 8];
+            this.buffer = new uint[width * height];
         }
 
-        public virtual void Clear(int color) {
+        public virtual void Clear(uint color) {
             if (this.buffer != null) {
                 if (color == 0)
                     Array.Clear(this.buffer, 0, this.buffer.Length);
@@ -38,13 +38,7 @@ namespace SpriteMaster {
         public virtual void SetPixel(uint color, int x, int y) {
             if (x < 0 || y < 0 || x >= this.width || y >= this.height) return;
 
-            var index = (y >> 3) * this.width + x;
-            if (color != 0) {
-                this.buffer[index] |= (byte)(1 << (y & 7));
-            }
-            else {
-                this.buffer[index] &= (byte)(~(1 << (y & 7)));
-            }
+            this.buffer[y * this.width + x] = color;
         }
         public void DrawLine(uint color, int x0, int y0, int x1, int y1) {
 

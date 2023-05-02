@@ -21,7 +21,7 @@ var dueController = new DUEController(port);
 var buttonPressed = false;
 var moveDetected = false;
 
-dueController.Neo.SetColor(0, 0, 255, 0); // Led Green
+dueController.Neo.SetColor(0, 0); // Led Green
 dueController.Neo.Show(1);
 
 var buttonPin = 26;
@@ -29,17 +29,17 @@ var pirPin = 28;
 var beepPin = 27;
 
 while (true) {
-    var buttonState = !dueController.Digital.Read(buttonPin, DUEController.Input.PULL_UP);
-    var pirState = dueController.Digital.Read(pirPin, DUEController.Input.PULL_UP);
+    var buttonState = !dueController.Digital.Read(buttonPin, DUEController.Input.PullUp);
+    var pirState = dueController.Digital.Read(pirPin, DUEController.Input.PullUp);
 
     if (buttonPressed != buttonState) {
         buttonPressed = buttonState;
 
         if (buttonPressed) {
-            dueController.Neo.SetColor(0, 255, 255, 255); // led while
+            dueController.Neo.SetColor(0, 0xFFFFFF); // led while
         }
         else {
-            dueController.Neo.SetColor(0, 0, 255, 0); // led green
+            dueController.Neo.SetColor(0, 0x00FF00); // led green
         }
 
         dueController.Neo.Show(1);
@@ -54,11 +54,11 @@ while (true) {
         moveDetected = pirState;
 
         if (moveDetected) {
-            dueController.Neo.SetColor(0, 255, 0, 0); // led read
+            dueController.Neo.SetColor(0, 0xFF0000); // led read
             Console.WriteLine("Moving detected!");
         }
         else {
-            dueController.Neo.SetColor(0, 0, 255, 0); // led green
+            dueController.Neo.SetColor(0, 0x00FF00); // led green
             Console.WriteLine("Moving stopped!");
         }
 

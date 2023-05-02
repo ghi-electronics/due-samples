@@ -1,6 +1,7 @@
 // See https://aka.ms/new-console-template for more information
 
 using DUE.Graphics;
+using GHIElectronics.DUE;
 using static GHIElectronics.DUE.DUEController;
 using static GHIElectronics.DUE.DUEController.ButtonController;
 
@@ -84,7 +85,7 @@ class FallingBirdGame {
     private void UpdateStart() {
         this.g.DrawText(Font.Font4x6, "'B'", 2, 2, Color.Cyan);
         this.g.DrawText(Font.Font4x6, "Play", 0, 8, Color.Cyan);
-        if (this.btn.IsPressed((int)Buttons.B)) {
+        if (this.btn.IsPressed((int)DUEController.Pin.ButtonB)) {
             this.Reset(true);
             this.state = States.Play;
         }

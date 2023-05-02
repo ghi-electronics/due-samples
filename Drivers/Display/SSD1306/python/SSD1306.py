@@ -149,7 +149,7 @@ class SSD1306Controller:
 
     def __SendCommand(self, cmd: int):
         self.buffer2[1] = cmd
-        self.dueController.I2c.Write(self.SlaveAddress, self.buffer2)
+        self.dueController.I2c.Write(self.SlaveAddress, self.buffer2, 0, len(self.buffer2))
 
     def SetColorFormat(self, invert: bool):
         if invert == True:
@@ -157,17 +157,36 @@ class SSD1306Controller:
         else:
             self.__SendCommand(self, 0xA6)
 
-    def ShowData(self, data: bytearray, offset: int, length: int) :
-        if data == 0 or (offset+ length) > len(data):
+    def DrawBuffer(self, color, offset: int, length: int) :
+        if color == 0 or (offset+ length) > len(color):
             raise ("Argument out of range exception")
         
-        for i in range(1, len(data)-1):
-            self.vram[1 + i] = data[i]
+        buffer = bytearray(int(self.Width * self.Height / 8))
+        i = 0
+
+        for y in range(self.Height):
+            for x in range (self.Width):
+                index = int(y / 8) * self.Width + x
+
+                if ((color[offset + i] & 0x00FFFFFF) != 0):
+                        buffer[index] |= (1 << (y % 8))
+                    
+                else :
+                    buffer[index] &= (~(1 << (y % 8)))
+                    
+
+                i += 1
+
+                if (i == length):
+                    break
         
-        self.dueController.I2c.Write(self.SlaveAddress, self.vram)
+        for i in range(0, len(buffer)):
+            self.vram[1 + i] = buffer[i]
+        
+        self.dueController.I2c.Write(self.SlaveAddress, self.vram, 0, len(self.vram))
 
     def Show(self) :                                 
-        self.dueController.I2c.Write(self.SlaveAddress, self.vram)    
+        self.dueController.I2c.Write(self.SlaveAddress, self.vram, 0, len(self.vram))    
 
     def SetPixel(self, x: int, y: int, color: int):
         if (x < 0 or y < 0 or  x >= self.Width or y >= self.Height):

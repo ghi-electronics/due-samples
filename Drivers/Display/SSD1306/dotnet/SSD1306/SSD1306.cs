@@ -64,14 +64,36 @@ namespace SSD1306 {
 
         public void SetColorFormat(bool invert) => this.SendCommand((byte)(invert ? 0xA7 : 0xA6));
 
-        public void Show() => this.dueController.I2c.Write(this.SlaveAddress, this.vram);
-
-        public void Show(byte[] buffer) => this.Show(buffer, 0, (uint)buffer.Length);
-        public void Show(byte[] buffer, uint offset, uint length) {
-            if (buffer == null || (offset + length > buffer.Length))
+        public void Show() => this.dueController.I2c.Write(this.SlaveAddress, this.vram);      
+        public void DrawBuffer(uint[] color, uint offset, int length) {
+            if (color == null || (offset + length > color.Length))
                 throw new ArgumentOutOfRangeException();
 
-            Array.Copy(buffer, offset, this.vram, 1, length);
+            var buffer = new byte[this.Width * this.Height / 8];
+
+            var i = 0;
+
+            for (var y = 0; y < this.Height; y++) {
+                for (var x = 0; x < this.Width; x++) {
+                    var index = (y / 8) * this.Width + x;
+
+                    if ((color[offset + i] & 0x00FFFFFF) != 0) {
+                        buffer[index] |= (byte)(1 << (y % 8));
+                    }
+                    else {
+                        buffer[index] &= (byte)(~(1 << (y % 8)));
+                    }
+
+                    i++;
+
+                    if (i == length)
+                        break;
+                }
+            }
+
+
+
+            Array.Copy(buffer, 0, this.vram, 1, buffer.Length);
             this.dueController.I2c.Write(this.SlaveAddress, this.vram);
         }
         public void SetPixel(int x, int y, uint color) {
