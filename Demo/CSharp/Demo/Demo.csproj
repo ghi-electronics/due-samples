@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GHIElectronics.DUE" Version="0.0.0.8006" />
+    <PackageReference Include="GHIElectronics.DUE" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
