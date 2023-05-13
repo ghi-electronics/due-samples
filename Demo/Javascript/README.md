@@ -1,1 +1,1 @@
-Demo application in javascript can be found at: F:\Brainpad\due-samples\docs
+Demo application sources for JavaScript can be found at: \due-samples\docs
