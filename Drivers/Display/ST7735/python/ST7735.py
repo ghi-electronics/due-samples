@@ -1,4 +1,4 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import time
 
 mono8x5 = [
@@ -164,7 +164,7 @@ class ST7735Controller:
 
     
 
-    def __init__(self, dueController: DUEController, chipselectPin: int, controlPin: int, resetPin: int, backlightPin: int) -> None:
+    def __init__(self, dueController: DUELinkController, chipselectPin: int, controlPin: int, resetPin: int, backlightPin: int) -> None:
         self.dueController = dueController
         self.resetPin = resetPin
         self.backlightPin = backlightPin

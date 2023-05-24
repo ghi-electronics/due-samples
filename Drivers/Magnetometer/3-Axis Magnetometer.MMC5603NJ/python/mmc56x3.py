@@ -1,4 +1,4 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import array
 import time
 from enum import Enum
@@ -8,7 +8,7 @@ class MMC56x3Controller:
     _odr_cache = 0
     _ctrl2_cache = 0
 
-    def __init__(self, dueController: DUEController, slaveAddress = 0x30 ) -> None:
+    def __init__(self, dueController: DUELinkController, slaveAddress = 0x30 ) -> None:
         self.dueController = dueController
         self.slaveAddress = slaveAddress
         self.__Reset()

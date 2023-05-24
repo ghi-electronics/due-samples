@@ -1,10 +1,10 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 from ringclick import RingClickController
 import time
 
-availablePort = DUEController.GetConnectionPort()
+availablePort = DUELinkController.GetConnectionPort()
 
-dueController = DUEController(availablePort)
+dueController = DUELinkController(availablePort)
 
 resetPin = 6
 latchPin = 17

@@ -1,5 +1,5 @@
-from DUE.DUEController import DUEController
-from DUE.Digital import Input
+from DUELink.DUELinkController import DUELinkController
+from DUELink.Digital import Input
 import time
 import math
 
@@ -8,7 +8,7 @@ class LedBarController:
     INPUT = 0
     OUTPUT = 1
 
-    def __init__(self, dueController: DUEController, pinClk: int, pinData: int) -> None:
+    def __init__(self, dueController: DUELinkController, pinClk: int, pinData: int) -> None:
         self.dueController = dueController
         self.pinClk = pinClk
         self.pinData = pinData

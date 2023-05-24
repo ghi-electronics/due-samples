@@ -1,10 +1,10 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 from ST7735 import ST7735Controller
 
 
-availablePort = DUEController.GetConnectionPort()
+availablePort = DUELinkController.GetConnectionPort()
 
-dueController = DUEController(availablePort)
+dueController = DUELinkController(availablePort)
 
 chipselect = 16; # DUE pin
 controlPin = 12; # DUE pin

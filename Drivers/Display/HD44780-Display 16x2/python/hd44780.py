@@ -1,5 +1,5 @@
 
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import time
 
 class HD44780Controller(object):
@@ -41,7 +41,7 @@ class HD44780Controller(object):
     LCD_5x10DOTS = 0x04
     LCD_5x8DOTS = 0x00
 
-    def __init__(self, dueController: DUEController, address = 0x3E):
+    def __init__(self, dueController: DUELinkController, address = 0x3E):
 
         self.dueController = dueController
         self.address = address

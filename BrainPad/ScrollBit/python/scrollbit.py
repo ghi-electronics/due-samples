@@ -1,5 +1,5 @@
-from DUE.DUEController import DUEController
-from DUE.Digital import Input
+from DUELink.DUELinkController import DUELinkController
+from DUELink.Digital import Input
 import array
 import time
 import numpy
@@ -47,7 +47,7 @@ class ScrollBitController:
         222, 224, 227, 229, 231, 233, 235, 237, 239, 241, 244, 246, 248, 250, 252, 255
     ]
 
-    def __init__(self, dueController: DUEController, slaveAddress = 0x74 ) -> None:
+    def __init__(self, dueController: DUELinkController, slaveAddress = 0x74 ) -> None:
         self.dueController = dueController
         self.slaveAddress = slaveAddress
         self.buf = bytearray(144)

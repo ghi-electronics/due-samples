@@ -1,4 +1,4 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import array
 
 mono8x5 = [
@@ -108,7 +108,7 @@ class HT16K33Controller:
     HT16K33_BLINK_DISPLAYON = 0x01
     HT16K33_OSCILLATOR_ON = 0x21
 
-    def __init__(self, dueController: DUEController, slaveAddress = 0x70, row: int = 8, column: int = 8, rotation = 0 ) -> None:
+    def __init__(self, dueController: DUELinkController, slaveAddress = 0x70, row: int = 8, column: int = 8, rotation = 0 ) -> None:
         self.dueController = dueController
         self.SlaveAddress = slaveAddress
         self.row = row

@@ -1,11 +1,11 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import time
 
 
 class SHT31Controller: 
 
 
-    def __init__(self, dueController: DUEController, slaveAddress: int = 0x44) -> None:
+    def __init__(self, dueController: DUELinkController, slaveAddress: int = 0x44) -> None:
         self.dueController = dueController
         self.slaveAddress = slaveAddress
         self.__fastmode = False

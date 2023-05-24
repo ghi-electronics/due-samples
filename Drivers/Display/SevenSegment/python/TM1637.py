@@ -1,5 +1,5 @@
-from DUE.DUEController import DUEController
-from DUE.Digital import Input
+from DUELink.DUELinkController import DUELinkController
+from DUELink.Digital import Input
 import time
 
 class TM1637Controller:
@@ -34,7 +34,7 @@ class TM1637Controller:
 
     MinusSegments = 0b01000000
 
-    def __init__(self, dueController: DUEController, pinClk: int, pinDio: int) -> None:
+    def __init__(self, dueController: DUELinkController, pinClk: int, pinDio: int) -> None:
         self.__dueController = dueController
         self.__pinClk = pinClk
         self.__pinDio = pinDio

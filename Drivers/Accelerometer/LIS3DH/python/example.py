@@ -1,10 +1,10 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 from lis3dh import LIS3DHController
 import time
 
-availablePort = DUEController.GetConnectionPort()
+availablePort = DUELinkController.GetConnectionPort()
 
-dueController = DUEController(availablePort)
+dueController = DUELinkController(availablePort)
 
 lis3dh = LIS3DHController(dueController)
 

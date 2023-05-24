@@ -1,4 +1,4 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import array
 
 class GyroscopeController: 
@@ -17,7 +17,7 @@ class GyroscopeController:
 
     LSM6DS3_OUTX_L_XL = 0X28  
 
-    def __init__(self, dueController: DUEController, slaveAddress = 0x6A ) -> None:
+    def __init__(self, dueController: DUELinkController, slaveAddress = 0x6A ) -> None:
         self.dueController = dueController
         self.slaveAddress = slaveAddress
         self.AccelerationSampleRate = 104.0

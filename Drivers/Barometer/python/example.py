@@ -1,10 +1,10 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 from bmp280 import BMP280Controller
 import time
 
-availablePort = DUEController.GetConnectionPort()
+availablePort = DUELinkController.GetConnectionPort()
 
-dueController = DUEController(availablePort)
+dueController = DUELinkController(availablePort)
 
 
 bmp280 = BMP280Controller(dueController)

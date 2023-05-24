@@ -1,5 +1,5 @@
-from DUE.DUEController import DUEController
-from DUE.Digital import Input
+from DUELink.DUELinkController import DUELinkController
+from DUELink.Digital import Input
 import array
 import time
 import numpy
@@ -159,7 +159,7 @@ class InkyBitController:
     OFFSET_X = 0
     OFFSET_Y = 6
 
-    def __init__(self, dueController: DUEController ) -> None:
+    def __init__(self, dueController: DUELinkController ) -> None:
         self.dueController = dueController
         self.dueController.Digital.Write(InkyBitController.PIN_CS, InkyBitController.CS_INACTIVE)
 

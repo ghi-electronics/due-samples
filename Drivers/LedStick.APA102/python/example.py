@@ -1,10 +1,10 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 from apa102 import APA102Controller
 import time
 
-availablePort = DUEController.GetConnectionPort()
+availablePort = DUELinkController.GetConnectionPort()
 
-dueController = DUEController(availablePort)
+dueController = DUELinkController(availablePort)
 
 led = APA102Controller(dueController)
 

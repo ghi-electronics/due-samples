@@ -1,4 +1,4 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import array
 import time
 import math
@@ -31,7 +31,7 @@ class BMP280Controller:
 
     MSL = 102009 # Mean Sea Level in Pa
 
-    def __init__(self, dueController: DUEController, slaveAddress = 0x77 ) -> None:
+    def __init__(self, dueController: DUELinkController, slaveAddress = 0x77 ) -> None:
         self.dueController = dueController
         self.slaveAddress = slaveAddress
 

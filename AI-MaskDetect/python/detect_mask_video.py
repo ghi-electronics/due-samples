@@ -14,11 +14,11 @@ import cv2
 import os
 
 ########333
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 
 
-availablePort = DUEController.GetConnectionPort()
-BP = DUEController(availablePort)
+availablePort = DUELinkController.GetConnectionPort()
+BP = DUELinkController(availablePort)
 ########333
 
 def detect_and_predict_mask(frame, faceNet, maskNet):

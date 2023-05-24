@@ -11,13 +11,13 @@
 # Temperature and Humidity: Refer to https://github.com/ghi-electronics/due-samples/tree/main/Drivers/Temperature-Humidity/SHT31
 # Gyroscope Accelerometer : https://github.com/ghi-electronics/due-samples/tree/main/Drivers/Accelerometer/Gyro
 
-from DUE.DUEController import DUEController
-from DUE.Digital import Input
+from DUELink.DUELinkController import DUELinkController
+from DUELink.Digital import Input
 import time
 
-availablePort = DUEController.GetConnectionPort()
+availablePort = DUELinkController.GetConnectionPort()
 
-dueController = DUEController(availablePort)
+dueController = DUELinkController(availablePort)
 
 buttonPressed = False
 moveDetected = False

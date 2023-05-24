@@ -1,4 +1,4 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 
 mono8x5 = [
     0x00, 0x00, 0x00, 0x00, 0x00, #  Space	0x20 */
@@ -106,7 +106,7 @@ class SSD1306Controller:
 
     
 
-    def __init__(self, dueController: DUEController, slaveAddress = 0x3C) -> None:
+    def __init__(self, dueController: DUELinkController, slaveAddress = 0x3C) -> None:
         self.dueController = dueController
         self.SlaveAddress = slaveAddress
 

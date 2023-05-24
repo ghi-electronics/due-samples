@@ -1,10 +1,10 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import time
 import math
 import random
 
-port = DUEController.GetConnectionPort()
-dueController = DUEController(port)
+port = DUELinkController.GetConnectionPort()
+dueController = DUELinkController(port)
 
 w=16      # Width of the matrix 
 u=4       # Player X position
@@ -17,12 +17,11 @@ x = 0
 y = 0
 p = 0
 
-dueController.Button.Enable(DUEController.Pin.ButtonA, True)
 
 # Handle the player
 def plyr():
     global w,u,v,t,b,h,g,x,y,p
-    if (dueController.Button.IsPressed(DUEController.Pin.ButtonA)):
+    if (dueController.Digital.Read('a', 1)) == False:
         if v > 0:
             v -=1
         t = 1
@@ -85,7 +84,7 @@ def die():
 
         pxl()
         dueController.Neo.SetColor(p, 0x400000)
-        dueController.Neo.Show(256)
+        dueController.Neo.Show(1, 256)
     b = 15
 
 # Formula for index into 16x16 NeoPixel Matrix
@@ -101,7 +100,7 @@ def Loop():
         plyr()
         wall()
         coll()
-        dueController.Neo.Show(256)
+        dueController.Neo.Show(1, 256)
         time.sleep(50/1000)
 
 Loop()

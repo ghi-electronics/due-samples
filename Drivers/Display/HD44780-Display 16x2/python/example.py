@@ -1,11 +1,11 @@
 
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import hd44780
 
 
-availablePort = DUEController.GetConnectionPort()
+availablePort = DUELinkController.GetConnectionPort()
 
-bp = DUEController(availablePort)
+bp = DUELinkController(availablePort)
 
 d = hd44780.HD44780Controller(bp)
 

@@ -1,10 +1,10 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import time
 
 
 class HDC1000Controller: 
 
-    def __init__(self, dueController: DUEController, slaveAddress: int = 0x40) -> None:
+    def __init__(self, dueController: DUELinkController, slaveAddress: int = 0x40) -> None:
         self.dueController = dueController
         self.slaveAddress = slaveAddress
         config = HDC1000Controller.HDC1000_BOTH_TEMP_HUMI | HDC1000Controller.HDC1000_TEMP_HUMI_14BIT | HDC1000Controller.HDC1000_HEAT_ON | HDC1000Controller.HDC1000_RST

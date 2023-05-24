@@ -1,5 +1,5 @@
-from DUE.DUEController import DUEController
-from DUE.Digital import Input
+from DUELink.DUELinkController import DUELinkController
+from DUELink.Digital import Input
 
 
 
@@ -7,7 +7,7 @@ class RingClickController:
     INPUT = 0
     OUTPUT = 1
 
-    def __init__(self, dueController: DUEController, reset: int, latch: int, data: int, clock: int) -> None:
+    def __init__(self, dueController: DUELinkController, reset: int, latch: int, data: int, clock: int) -> None:
         self.dueController = dueController
         self.resetPin = reset
         self.latchPin = latch

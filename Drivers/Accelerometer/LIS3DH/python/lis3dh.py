@@ -1,4 +1,4 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import array
 import time
 from enum import Enum
@@ -122,7 +122,7 @@ class LIS3DHController:
 
     LIS3DHTR_REG_ACCEL_STATUS2_UPDATE_MASK = (0x08)  # Has New Data Flag Mask    
 
-    def __init__(self, dueController: DUEController, slaveAddress = 0x19 ) -> None:
+    def __init__(self, dueController: DUELinkController, slaveAddress = 0x19 ) -> None:
         self.dueController = dueController
         self.slaveAddress = slaveAddress
 

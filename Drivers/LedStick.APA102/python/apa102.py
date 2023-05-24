@@ -1,11 +1,11 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import time
 
 
 class APA102Controller: 
 
 
-    def __init__(self, dueController: DUEController, slaveAddress: int = 0x23) -> None:
+    def __init__(self, dueController: DUELinkController, slaveAddress: int = 0x23) -> None:
         self.dueController = dueController
         self.slaveAddress = slaveAddress
         self.__maxled = 10

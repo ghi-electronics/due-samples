@@ -1,4 +1,4 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 import array
 import time
 from enum import Enum
@@ -6,7 +6,7 @@ from enum import Enum
 
 class AccelG248Controller:         
 
-    def __init__(self, dueController: DUEController, slaveAddress = 0x1C ) -> None:
+    def __init__(self, dueController: DUELinkController, slaveAddress = 0x1C ) -> None:
         self.dueController = dueController
         self.slaveAddress = slaveAddress
         self.__WriteRegister(0x2A, 1)
