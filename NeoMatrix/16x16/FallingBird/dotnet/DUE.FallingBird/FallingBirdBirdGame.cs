@@ -15,6 +15,7 @@ class FallingBirdGame {
     private readonly Canvas g;
     private readonly DigitalController btn;
     private readonly Bird bird;
+    const int BUTTON_A = 97;
 
     enum States {
         Start,
@@ -85,7 +86,7 @@ class FallingBirdGame {
     private void UpdateStart() {
         this.g.DrawText(Font.Font4x6, "'B'", 2, 2, Color.Cyan);
         this.g.DrawText(Font.Font4x6, "Play", 0, 8, Color.Cyan);
-        if (this.btn.Read(98, 1)) {
+        if (this.btn.Read(BUTTON_A, 1)) {
             this.Reset(true);
             this.state = States.Play;
         }

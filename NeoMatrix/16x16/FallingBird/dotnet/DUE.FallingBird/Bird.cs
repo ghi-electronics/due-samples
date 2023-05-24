@@ -19,7 +19,7 @@ partial class Bird {
     private int dy = 0;
     private int fallTimer;
     private States state = States.Alive;
-    const int BUTTON_B = 98;
+    const int BUTTON_A = 97;
     private enum States {
         Alive,
         Die,
@@ -58,7 +58,7 @@ partial class Bird {
     }
 
     private void Fly() {
-        if (this.btn.Read(BUTTON_B, 1) == false) {
+        if (this.btn.Read(BUTTON_A, 1) == false) {
             this.fallTimer = FALL_DELAY;
             if (this.y > 0) {
                 this.y--;
