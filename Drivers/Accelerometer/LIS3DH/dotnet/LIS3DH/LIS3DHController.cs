@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace LIS3DH {
     public class LIS3DHController {
-        DUEController dueController;
+        DUELinkController dueController;
 
         public byte SlaveAddress { get; }
 
@@ -16,7 +16,7 @@ namespace LIS3DH {
 
 
 
-        public LIS3DHController(DUEController dueController, byte slaveAddress = 0x19) {
+        public LIS3DHController(DUELinkController dueController, byte slaveAddress = 0x19) {
             this.SlaveAddress = slaveAddress;
             this.dueController = dueController;
 

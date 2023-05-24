@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DUE.Graphics;
+using DUELink.Graphics;
 
-namespace DUE.Game {
+namespace DUELink.Game {
     public class GameObject {
         private List<GameObject> gameObjects = new();
         private List<GameObject> toRemove = new();

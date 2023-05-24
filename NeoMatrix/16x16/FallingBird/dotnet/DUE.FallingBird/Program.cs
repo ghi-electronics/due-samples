@@ -1,21 +1,24 @@
 // See https://aka.ms/new-console-template for more information
 // This project run on BrainPad Pulse
 
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
-using DUE.Graphics;
-using static GHIElectronics.DUE.DUEController;
+using DUELink.Graphics;
+using static GHIElectronics.DUELink.DUELinkController;
 
-var port = DUEController.GetConnectionPort();
-var serial = new SerialInterface(port);
-serial.Connect();
+var port = DUELinkController.GetConnectionPort();
+var dueController = new DUELinkController(port);
 
-var neo = new NeoController(serial);
-var btn = new ButtonController(serial);
+
+//var serial = new SerialInterface(port);
+//serial.Connect();
+
+var neo = dueController.Neo;
+var btn = dueController.Digital;
 
 Canvas canvas = new(16, 16,
     (int x, int y, int w) => ((x * w) + ((x & 1) * (w - 1)) + ((1 - (2 * (x & 1))) * y)),
-    (uint[] pixels) => { neo.SetMultiple(pixels, 0, pixels.Length); neo.Show(256); }
+    (uint[] pixels) => { neo.SetMultiple(1, pixels); neo.Show(1, 256); }
 );
 
 FallingBirdGame game = new(canvas, btn);

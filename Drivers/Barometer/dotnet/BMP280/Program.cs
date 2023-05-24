@@ -1,9 +1,9 @@
 using BMP280;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
-var port = DUEController.GetConnectionPort();
+var port = DUELinkController.GetConnectionPort();
 
-var dueController = new DUEController(port);
+var dueController = new DUELinkController(port);
 
 var bmp280 = new BMP280Controller(dueController);
 

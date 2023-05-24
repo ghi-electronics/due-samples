@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace SmartHome {
     internal class RgbLedController {
-        DUEController dueController;
+        DUELinkController dueController;
         public int LedMax { get; } = 4;
 
-        public RgbLedController(DUEController dueController) => this.dueController = dueController;
+        public RgbLedController(DUELinkController dueController) => this.dueController = dueController;
 
         public void TurnOn(int ledIndex, byte red, byte green, byte blue) {
             if (ledIndex > 3 || ledIndex < 0)
@@ -20,13 +20,13 @@ namespace SmartHome {
 
             this.dueController.Neo.SetColor(ledIndex, color);
 
-            this.dueController.Neo.Show(this.LedMax);
+            this.dueController.Neo.Show(1, this.LedMax);
         }
         public void TurnOff() {
             for (var i = 0; i < this.LedMax; i++) {
                 this.dueController.Neo.SetColor(i, 0);
             }
-            this.dueController.Neo.Show(this.LedMax);
+            this.dueController.Neo.Show(1, this.LedMax);
         }
 
         public void TurnOn(byte red, byte green, byte blue) {
@@ -36,7 +36,7 @@ namespace SmartHome {
 
                 this.dueController.Neo.SetColor(i, color);
             }
-            this.dueController.Neo.Show(this.LedMax);
+            this.dueController.Neo.Show(1, this.LedMax);
         }
 
      

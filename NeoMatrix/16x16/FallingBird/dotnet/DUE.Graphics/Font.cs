@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DUE.Graphics {
+namespace DUELink.Graphics {
     public class Font {
         public readonly static byte[] Font4x6 = {
             4, 6,

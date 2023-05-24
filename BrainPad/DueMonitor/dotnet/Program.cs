@@ -1,4 +1,4 @@
-﻿using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -7,8 +7,8 @@ using System.Runtime.InteropServices;
 static extern int GetSystemMetrics(SystemMetric smIndex);
 
 
-var port = DUEController.GetConnectionPort();
-var device = new DUEController(port);
+var port = DUELinkController.GetConnectionPort();
+var device = new DUELinkController(port);
 
 
 var srcrect = new Rectangle(0, 0, GetSystemMetrics(SystemMetric.CXSCREEN), GetSystemMetrics(SystemMetric.CYSCREEN));
@@ -34,7 +34,7 @@ while (true)
 
     d.Dither(scaledbmp);
 
-    device.Display.DrawBuffer(d.Buffer, 0, d.Buffer.Length);
+    device.Display.DrawBuffer(d.Buffer);
 }
     
 

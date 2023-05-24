@@ -1,6 +1,6 @@
 // See https://aka.ms/new-console-template for more information
 
-using DUE.Graphics;
+using DUELink.Graphics;
 
 class Bar {
     public const int BAR_UPDATE_FRAME = 5;

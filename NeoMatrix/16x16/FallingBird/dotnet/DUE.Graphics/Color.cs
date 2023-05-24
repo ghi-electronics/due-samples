@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DUE.Graphics {
+namespace DUELink.Graphics {
     public struct Color {
         public readonly static Color Black = new Color(0x0000000);
         public readonly static Color Blue = new Color(0x000040);

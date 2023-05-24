@@ -1,9 +1,9 @@
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 using HD44780;
 
-var port = DUEController.GetConnectionPort();
+var port = DUELinkController.GetConnectionPort();
 
-var dueController = new DUEController(port);
+var dueController = new DUELinkController(port);
 
 var lcd = new HD44780Controller(dueController);
 

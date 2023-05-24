@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace SSD1306 {
     public class SSD1306 {
-        DUEController dueController;
+        DUELinkController dueController;
 
         private readonly byte[] vram = new byte[128 * 64 / 8 + 1];
         private readonly byte[] buffer2 = new byte[2];
@@ -15,7 +15,7 @@ namespace SSD1306 {
         public byte SlaveAddress { get; }
         public int Width => 128;
         public int Height => 64;
-        public SSD1306(DUEController due, byte slaveAddress = 0x3C) {
+        public SSD1306(DUELinkController due, byte slaveAddress = 0x3C) {
             this.dueController = due;
             this.SlaveAddress = slaveAddress;
 

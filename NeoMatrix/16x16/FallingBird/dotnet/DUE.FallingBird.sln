@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DUE.FallingBird", ".\DUE.FallingBird\DUE.FallingBird.csproj", "{66D70433-9905-4542-9198-E29DB7F9064D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DUE.FallingBird", "DUE.FallingBird\DUE.FallingBird.csproj", "{66D70433-9905-4542-9198-E29DB7F9064D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DUE.Graphics", ".\DUE.Graphics\DUE.Graphics.csproj", "{7E259749-E036-4313-9DBC-8148ECBA72DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DUE.Graphics", "DUE.Graphics\DUE.Graphics.csproj", "{7E259749-E036-4313-9DBC-8148ECBA72DE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DUE.Game", ".\DUE.Game\DUE.Game.csproj", "{CE7F929D-9480-4E9E-AC6E-1E9215EC5914}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DUE.Game", "DUE.Game\DUE.Game.csproj", "{CE7F929D-9480-4E9E-AC6E-1E9215EC5914}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

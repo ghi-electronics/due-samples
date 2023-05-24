@@ -1,6 +1,6 @@
 // See https://aka.ms/new-console-template for more information
 
-using DUE.Graphics;
+using DUELink.Graphics;
 
 class Particle {
     private readonly Canvas g;

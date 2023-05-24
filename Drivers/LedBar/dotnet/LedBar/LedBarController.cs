@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace LedBar {
     public class LedBarController {
-        DUEController dueController;
+        DUELinkController dueController;
 
         int pinClock;
         int pinData;
@@ -21,7 +21,7 @@ namespace LedBar {
         const int OUTPUT = 1;
 
 
-        public LedBarController(DUEController dueController, int pinClock, int pinData) {
+        public LedBarController(DUELinkController dueController, int pinClock, int pinData) {
             this.dueController = dueController;
             this.pinClock = pinClock;
             this.pinData = pinData;
@@ -41,7 +41,7 @@ namespace LedBar {
                 this.dueController.Digital.Write((int)pin, false);
             }
             else if (mode == INPUT) {
-                this.dueController.Digital.Read((int)pin, DUEController.Input.PULL_NONE);
+                this.dueController.Digital.Read((int)pin, DUELinkController.Input.PULL_NONE);
             }
         }
 

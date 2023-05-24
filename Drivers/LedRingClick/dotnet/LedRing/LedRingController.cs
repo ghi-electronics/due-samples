@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace LedRing {
     public class LedRingController {
-        DUEController dueController;
+        DUELinkController dueController;
 
         private int resetPin;
         private int latchPin;
@@ -16,7 +16,7 @@ namespace LedRing {
 
         private uint ledIndex;
 
-        public LedRingController(DUEController due, int reset, int latch, int data, int clock) {
+        public LedRingController(DUELinkController due, int reset, int latch, int data, int clock) {
             this.dueController = due;
             this.clockPin = clock;
             this.resetPin = reset;

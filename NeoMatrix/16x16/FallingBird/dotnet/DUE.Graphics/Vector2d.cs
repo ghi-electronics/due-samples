@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DUE.Graphics {
+namespace DUELink.Graphics {
     public struct Vector2d {
         public double X { get; set; }
         public double Y { get; set; }

@@ -2,12 +2,12 @@
 // The code does not use SPI and instead bit-bang to give soft-SPI on the compensated pins to correct the design error
 // This works but the system will run extremely slow
 
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 using LedRing;
 
-var port = DUEController.GetConnectionPort();
+var port = DUELinkController.GetConnectionPort();
 
-var dueController = new DUEController(port);
+var dueController = new DUELinkController(port);
 
 var resetPin = 6;
 var latchPin = 17;

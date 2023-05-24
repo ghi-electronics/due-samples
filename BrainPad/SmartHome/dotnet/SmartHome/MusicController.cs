@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace SmartHome {
     public class MusicController {
-        DUEController dueController;
+        DUELinkController dueController;
         public enum Note {
             //% blockIdentity=music.noteFrequency enumval=262
             C = 262,
@@ -120,7 +120,7 @@ namespace SmartHome {
         }
 
 
-        public MusicController(DUEController dueController) => this.dueController = dueController;
+        public MusicController(DUELinkController dueController) => this.dueController = dueController;
 
         private bool play = false;
         public void Stop() => this.play = false;
@@ -177,7 +177,7 @@ namespace SmartHome {
             };
 
         public void Play(int tone, int delay) {
-            this.dueController.Sound.Play((int)Tones[tone], delay, 100);
+            this.dueController.Frequency.Write('p',(int)Tones[tone], delay, 100);
 
             Thread.Sleep(delay);
         }

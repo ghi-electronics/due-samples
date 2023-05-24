@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
-using static GHIElectronics.DUE.DUEController;
+using GHIElectronics.DUELink;
+using static GHIElectronics.DUELink.DUELinkController;
 
 namespace _3DCube {
     public class Cube3D {
        
-        DUEController dueController;
-        public Cube3D(DUEController dueController) => this.dueController = dueController;
+        DUELinkController dueController;
+        public Cube3D(DUELinkController dueController) => this.dueController = dueController;
         static void Translate3Dto2D(Vector3[] points3D, Vector2[] points2D, Vector3 rotate, Vector3 position) {
             const int OFFSETX = 64;
             const int OFFSETY = 32;

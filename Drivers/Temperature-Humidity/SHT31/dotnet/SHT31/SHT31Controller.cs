@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace SHT31 {
     public class SHT31Controller {
@@ -14,11 +14,11 @@ namespace SHT31 {
         const ushort SHT31_MEASUREMENT_FAST = 0x2416;
         const ushort SHT31_MEASUREMENT_SLOW = 0x2400;
 
-        DUEController dueController;
+        DUELinkController dueController;
         public byte SlaveAddress { get; }
         public bool FastMode { get; set; } = false;
 
-        public SHT31Controller(DUEController due, byte slaveAddress = 0x44) {
+        public SHT31Controller(DUELinkController due, byte slaveAddress = 0x44) {
             this.SlaveAddress = slaveAddress;
             this.dueController = due;
             this.Reset(false);

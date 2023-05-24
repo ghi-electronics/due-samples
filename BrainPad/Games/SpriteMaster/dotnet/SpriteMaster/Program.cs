@@ -1,8 +1,8 @@
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
-var port = DUEController.GetConnectionPort();
+var port = DUELinkController.GetConnectionPort();
 
-var dueController = new DUEController(port);
+var dueController = new DUELinkController(port);
 
 var spritemaster = new SpriteMaster.SpriteMaster(dueController);
 

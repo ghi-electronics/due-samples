@@ -1,10 +1,10 @@
 
 
 using _3DCube;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
-var port = DUEController.GetConnectionPort();
-var dev = new DUEController(port);
+var port = DUELinkController.GetConnectionPort();
+var dev = new DUELinkController(port);
 
 var cube = new Cube3D(dev);
 

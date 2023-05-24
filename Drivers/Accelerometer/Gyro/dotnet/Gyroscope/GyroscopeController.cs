@@ -4,11 +4,11 @@ using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace Gyroscope {
     public class GyroscopeController {
-        DUEController dueController;
+        DUELinkController dueController;
         public byte SlaveAddress { get; }
 
         const byte LSM6DS3_WHO_AM_I_REG = 0X0F;
@@ -32,7 +32,7 @@ namespace Gyroscope {
         public float X { get; private set; }
         public float Y { get; private set; }
         public float Z { get; private set; }
-        public GyroscopeController(DUEController due, byte slaveAddress = 0x6A) {
+        public GyroscopeController(DUELinkController due, byte slaveAddress = 0x6A) {
             this.dueController = due;
             this.SlaveAddress = slaveAddress;
 

@@ -1,6 +1,6 @@
-using DUE.Graphics;
+using DUELink.Graphics;
 
-namespace DUE.Graphics {
+namespace DUELink.Graphics {
     public class Canvas {
         private readonly uint[] pixels;
         private readonly int width;

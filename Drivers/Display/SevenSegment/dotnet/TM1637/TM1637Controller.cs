@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace TM1637 {
     public class TM1637Controller {
-        DUEController dueController;
+        DUELinkController dueController;
         int pinClk;
         int pinDio;
         uint bitdelay;
@@ -40,14 +40,14 @@ namespace TM1637 {
         const int INPUT = 0;
         const int OUTPUT = 1;
 
-        public TM1637Controller(DUEController dueController, int pinClk, int pinDio) {
+        public TM1637Controller(DUELinkController dueController, int pinClk, int pinDio) {
             this.dueController = dueController;
             this.pinClk = pinClk;
             this.pinDio = pinDio;
             this.bitdelay = 0;
 
-            dueController.Digital.Read(this.pinClk, DUEController.Input.PULL_NONE);
-            dueController.Digital.Read(this.pinDio, DUEController.Input.PULL_NONE);
+            dueController.Digital.Read(this.pinClk, DUELinkController.Input.PULL_NONE);
+            dueController.Digital.Read(this.pinDio, DUELinkController.Input.PULL_NONE);
 
             dueController.Digital.Write(this.pinClk, false);
             dueController.Digital.Write(this.pinDio, false);
@@ -110,7 +110,7 @@ namespace TM1637 {
             // CLK to high
             this.PinMode(this.pinClk, INPUT);
             this.Delay();
-            var ack = this.dueController.Digital.Read(this.pinDio, DUEController.Input.PULL_NONE);
+            var ack = this.dueController.Digital.Read(this.pinDio, DUELinkController.Input.PULL_NONE);
             if (ack == false)
                 this.PinMode(this.pinDio, OUTPUT);
 
@@ -194,7 +194,7 @@ namespace TM1637 {
                 this.dueController.Digital.Write(pin, false);
             }
             else {
-                this.dueController.Digital.Read(pin, DUEController.Input.PULL_NONE);
+                this.dueController.Digital.Read(pin, DUELinkController.Input.PULL_NONE);
             }
         }
 

@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
-var port = DUEController.GetConnectionPort();
+var port = DUELinkController.GetConnectionPort();
 
-var dueController = new DUEController(port);
+var dueController = new DUELinkController(port);
 
-var chipselect = 16; // DUE pin
-var controlPin = 12; // DUE pin
-var resetPin = 8; // DUE pin
-var backlightPin = 1; // DUE pin
+var chipselect = 16; // DUELink pin
+var controlPin = 12; // DUELink pin
+var resetPin = 8; // DUELink pin
+var backlightPin = 1; // DUELink pin
 
 
 var screen = new ST7735.ST7735Controller(dueController, chipselect, controlPin, resetPin, backlightPin);
@@ -16,7 +16,7 @@ var screen = new ST7735.ST7735Controller(dueController, chipselect, controlPin, 
 // Use internal buffer
 // user can use external buffer with BasicGraphic
 screen.Clear();
-screen.DrawString("DUE - ST7735", 0x00FF00, 5, 5);
+screen.DrawString("DUELink - ST7735", 0x00FF00, 5, 5);
 screen.Show();
 
 Thread.Sleep(1000);

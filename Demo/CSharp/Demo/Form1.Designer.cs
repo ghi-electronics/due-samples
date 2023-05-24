@@ -105,7 +105,7 @@
             this.Controls.Add(this.ledOn);
             this.Controls.Add(this.btSound);
             this.Name = "Form1";
-            this.Text = "DUE's Demo";
+            this.Text = "DUELink's Demo";
             this.ResumeLayout(false);
             this.PerformLayout();
         }

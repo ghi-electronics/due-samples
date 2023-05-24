@@ -1,4 +1,4 @@
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace ST7735 {
     public enum ST7735CommandId : byte {
@@ -75,8 +75,8 @@ namespace ST7735 {
         public int Width { get; private set; } = 160;
         public int Height { get; private set; } = 128;
 
-        DUEController dueController;
-        public ST7735Controller(DUEController dueController, int chipselectPin = -1, int controlPin= -1, int resetPin = -1, int backlightPin = -1) {
+        DUELinkController dueController;
+        public ST7735Controller(DUELinkController dueController, int chipselectPin = -1, int controlPin= -1, int resetPin = -1, int backlightPin = -1) {
 
             this.resetPin = resetPin;
             this.dueController = dueController;

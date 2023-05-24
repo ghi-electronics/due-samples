@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace InkyBit {
     public class InkyBit {
-        DUEController dueController;
-        public InkyBit(DUEController due) {
+        DUELinkController dueController;
+        public InkyBit(DUELinkController due) {
             this.dueController = due;
             this.dueController.Digital.Write(PIN_CS, CS_INACTIVE);
 
@@ -220,7 +220,7 @@ namespace InkyBit {
             0xF8, 0xB4, 0x13, 0x51, 0x35, 0x51, 0x51, 0x19, 0x01, 0x00
         };
         public void BusyWait() {
-            while (this.dueController.Digital.Read(PIN_BUSY, DUEController.Input.PULL_UP))
+            while (this.dueController.Digital.Read(PIN_BUSY, this.dueController.Pin.PullUp))
             {
                 Thread.Sleep(50);
             }

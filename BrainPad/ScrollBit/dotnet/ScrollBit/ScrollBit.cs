@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace ScrollBit {
     public class ScrollBitController {
-        DUEController dueController;
+        DUELinkController dueController;
 
         private const int REG_MODE = 0x00;
         private const int REG_FRAME = 0x01;
@@ -46,7 +46,7 @@ namespace ScrollBit {
 
         }
 
-        public ScrollBitController(DUEController dueController, byte slaveAddress = 0x74) {
+        public ScrollBitController(DUELinkController dueController, byte slaveAddress = 0x74) {
             this.dueController = dueController;
             this.SlaveAddress = slaveAddress;
 

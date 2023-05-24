@@ -4,14 +4,14 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace SmartHome {
     internal class FanController {
-        DUEController dueController;
+        DUELinkController dueController;
         int pinPlus;
         int pinMinus;
-        public FanController(DUEController dueController, int pinPlus, int pinMinus) {
+        public FanController(DUELinkController dueController, int pinPlus, int pinMinus) {
 
 
 

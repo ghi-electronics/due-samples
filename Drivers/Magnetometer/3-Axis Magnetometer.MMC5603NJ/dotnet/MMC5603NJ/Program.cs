@@ -1,8 +1,8 @@
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 using MMC5603NJ;
 
-var port = DUEController.GetConnectionPort();
-var dueController = new DUEController(port);
+var port = DUELinkController.GetConnectionPort();
+var dueController = new DUELinkController(port);
 
 var sensor = new MMC56X3Controller(dueController);
 

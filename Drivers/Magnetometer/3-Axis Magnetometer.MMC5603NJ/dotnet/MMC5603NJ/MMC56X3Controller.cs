@@ -4,11 +4,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace MMC5603NJ {
     public class MMC56X3Controller {
-        DUEController dueController;
+        DUELinkController dueController;
         public byte SlaveAddress {
             get;
         }
@@ -21,7 +21,7 @@ namespace MMC5603NJ {
         private int odr_cache = 0;
         private int ctrl2_cache = 0;
 
-        public MMC56X3Controller(DUEController dueController, byte slaveAddress = 0x30) {
+        public MMC56X3Controller(DUELinkController dueController, byte slaveAddress = 0x30) {
             this.dueController = dueController;
             this.SlaveAddress = slaveAddress;
 

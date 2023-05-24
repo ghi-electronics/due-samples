@@ -1,10 +1,10 @@
 
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 using LedBar;
 
-var port = DUEController.GetConnectionPort();
+var port = DUELinkController.GetConnectionPort();
 
-var dueController = new DUEController(port);
+var dueController = new DUELinkController(port);
 
 var pinClock = 4;
 var pinDio = 5;

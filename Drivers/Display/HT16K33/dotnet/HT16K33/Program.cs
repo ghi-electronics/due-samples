@@ -1,9 +1,9 @@
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 using HT16K33;
 
-var port = DUEController.GetConnectionPort();
+var port = DUELinkController.GetConnectionPort();
 
-var dueController = new DUEController(port);
+var dueController = new DUELinkController(port);
 
 var ht16k33 = new HT16K33Controller(dueController) {
     Rotation = 0,

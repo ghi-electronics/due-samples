@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
-using static GHIElectronics.DUE.DUEController.ButtonController;
+using GHIElectronics.DUELink;
+using static GHIElectronics.DUELink.DUELinkController.ButtonController;
 
 namespace SpriteMaster {
     public class SpriteMaster {
-        DUEController dueController;
+        DUELinkController dueController;
 
-        public SpriteMaster(DUEController bp) {
+        public SpriteMaster(DUELinkController bp) {
             this.dueController = bp;
 
-            this.dueController.Button.Enable((int)DUEController.Pin.ButtonB, true);
-            this.dueController.Button.Enable((int)DUEController.Pin.ButtonA, true);
+            this.dueController.Button.Enable((int)this.dueController.Pin.ButtonB, true);
+            this.dueController.Button.Enable((int)this.dueController.Pin.ButtonA, true);
         }
         public void Run() {
 
@@ -110,7 +110,7 @@ namespace SpriteMaster {
                     else {
                         
                         this.DrawSprite(bullet);
-                        this.dueController.Sound.Play((int)(100 - bullet.Y) * 75, 80, 100);
+                        this.dueController.Frequency.Write('p',(int)(100 - bullet.Y) * 75, 80, 100);
                     }
 
 
@@ -147,10 +147,10 @@ namespace SpriteMaster {
                     }
                 }
                 else {
-                    var buttonPressed = this.dueController.Button.IsPressed((int)DUEController.Pin.ButtonA);
+                    var buttonPressed = this.dueController.Button.WasPressed((int)this.dueController.Pin.ButtonA);
 
                     if (!buttonPressed)
-                        buttonPressed = this.dueController.Button.IsPressed((int)DUEController.Pin.ButtonB);
+                        buttonPressed = this.dueController.Button.WasPressed((int)this.dueController.Pin.ButtonB);
 
                     if (buttonPressed) {
                         bullet.Y = 64;
@@ -208,7 +208,7 @@ namespace SpriteMaster {
                     enemy3.Y = 10;
                 }
                 
-                this.dueController.Display.DrawBuffer(basicGfx.Buffer, 0, basicGfx.Buffer.Length);
+                this.dueController.Display.DrawBuffer(basicGfx.Buffer);
 
                 // Delay for 20fps max
 

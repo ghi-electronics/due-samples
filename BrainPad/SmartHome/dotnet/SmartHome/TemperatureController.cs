@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace SmartHome {
     internal class TemperatureController {
-        DUEController dueController;
+        DUELinkController dueController;
         private byte SlaveAddress { get; }
 
         const byte HDC1000_ADDR = 0x40;
@@ -33,7 +33,7 @@ namespace SmartHome {
         const byte HDC1000_HUMI_11BIT = 0x01;
         const byte HDC1000_HUMI_8BIT = 0x02;
 
-        public TemperatureController(DUEController dueController, byte slaveAddress = 0x40) {
+        public TemperatureController(DUELinkController dueController, byte slaveAddress = 0x40) {
             this.dueController = dueController;
             this.SlaveAddress = slaveAddress;
 

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace SmartHome {
     internal class SingleLedController {
-        DUEController dueController;
+        DUELinkController dueController;
         int pin;
-        public SingleLedController(DUEController dueController, int pin) {
+        public SingleLedController(DUELinkController dueController, int pin) {
             this.pin = pin;
             this.dueController = dueController; 
         }

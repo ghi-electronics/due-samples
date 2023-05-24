@@ -1,9 +1,9 @@
 // See https://aka.ms/new-console-template for more information
 
-using DUE.Graphics;
-using GHIElectronics.DUE;
-using static GHIElectronics.DUE.DUEController;
-using static GHIElectronics.DUE.DUEController.ButtonController;
+using DUELink.Graphics;
+using GHIElectronics.DUELink;
+using static GHIElectronics.DUELink.DUELinkController;
+using static GHIElectronics.DUELink.DUELinkController.ButtonController;
 
 class FallingBirdGame {
     const int MIN_BAR_SPACING = 10;
@@ -13,7 +13,7 @@ class FallingBirdGame {
     readonly List<Bar> bars;
 
     private readonly Canvas g;
-    private readonly ButtonController btn;
+    private readonly DigitalController btn;
     private readonly Bird bird;
 
     enum States {
@@ -26,7 +26,7 @@ class FallingBirdGame {
     private int lives = 4;
     private int framesToNextBar;
     
-    public FallingBirdGame(Canvas g, ButtonController btn) {
+    public FallingBirdGame(Canvas g, DigitalController btn) {
         this.g = g;
         this.bird = new Bird(g, btn, 5, 8);
         this.bars = new() {
@@ -85,7 +85,7 @@ class FallingBirdGame {
     private void UpdateStart() {
         this.g.DrawText(Font.Font4x6, "'B'", 2, 2, Color.Cyan);
         this.g.DrawText(Font.Font4x6, "Play", 0, 8, Color.Cyan);
-        if (this.btn.IsPressed((int)DUEController.Pin.ButtonB)) {
+        if (this.btn.Read(98, 1)) {
             this.Reset(true);
             this.state = States.Play;
         }

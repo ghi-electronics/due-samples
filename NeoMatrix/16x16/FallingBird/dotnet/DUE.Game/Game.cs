@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using DUE.Graphics;
+using DUELink.Graphics;
 
-namespace DUE.Game {
+namespace DUELink.Game {
     public class Game : GameObject {
         public static Canvas? Canvas { get; private set; }
         public static int Frames { get; private set; }

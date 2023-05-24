@@ -5,11 +5,11 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace HT16K33 {
     public class HT16K33Controller {
-        DUEController dueController;
+        DUELinkController dueController;
         private byte SlaveAddress { get; }
 
         public int Column { get; }
@@ -37,7 +37,7 @@ namespace HT16K33 {
         const byte HT16K33_BLINK_DISPLAYON = 0x01;
         const byte HT16K33_OSCILLATOR_ON = 0x21;
 
-        public HT16K33Controller(DUEController dueController, byte slaveAddress = 0x70, int row = 8, int column = 8, int rotation = 0) {
+        public HT16K33Controller(DUELinkController dueController, byte slaveAddress = 0x70, int row = 8, int column = 8, int rotation = 0) {
             this.dueController = dueController;
             this.SlaveAddress = slaveAddress;
             this.Column = column;

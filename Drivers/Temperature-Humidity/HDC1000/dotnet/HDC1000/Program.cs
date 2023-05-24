@@ -1,10 +1,10 @@
 
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 using HDC1000;
 
-var port = DUEController.GetConnectionPort();
+var port = DUELinkController.GetConnectionPort();
 
-var dueController = new DUEController(port);
+var dueController = new DUELinkController(port);
 
 var hdc1000 = new HDC1000Controller(dueController);
 

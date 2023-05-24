@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace HD44780 {
     public class HD44780Controller {
@@ -55,7 +55,7 @@ namespace HD44780 {
         const uint LCD_5x10DOTS = 0x04;
         const uint LCD_5x8DOTS = 0x00;
 
-        DUEController dueController;
+        DUELinkController dueController;
         private byte SlaveAddress { get; }
 
         private uint displayfunction = 0;
@@ -64,7 +64,7 @@ namespace HD44780 {
 
 
 
-        public HD44780Controller(DUEController dueController, byte slaveAddress = 0x3E) {
+        public HD44780Controller(DUELinkController dueController, byte slaveAddress = 0x3E) {
 
             this.dueController = dueController;
             this.SlaveAddress = slaveAddress;

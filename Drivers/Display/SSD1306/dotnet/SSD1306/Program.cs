@@ -1,9 +1,9 @@
 
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
-var port = DUEController.GetConnectionPort();
+var port = DUELinkController.GetConnectionPort();
 
-var dueController = new DUEController(port);
+var dueController = new DUELinkController(port);
 
 var screen = new SSD1306.SSD1306(dueController);
 
@@ -11,7 +11,7 @@ var screen = new SSD1306.SSD1306(dueController);
 //var screen = new SSD1306.SSD1306(dueController, 0x3C);
 
 screen.Clear();
-screen.DrawString("DUE - SSD1306", 1, 5, 5);
+screen.DrawString("DUELink - SSD1306", 1, 5, 5);
 
 screen.Show();
 

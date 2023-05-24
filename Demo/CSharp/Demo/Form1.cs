@@ -1,5 +1,5 @@
 
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace Demo
 {
@@ -12,42 +12,42 @@ namespace Demo
 
         private void btSound_Click(object sender, EventArgs e)
         {
-            var port = DUEController.GetConnectionPort();
+            var port = DUELinkController.GetConnectionPort();
 
-            var dev = new DUEController(port);
+            var dev = new DUELinkController(port);
 
-            dev.Sound.Play(1000, 100, 100);
+            dev.Frequency.Write('p', 1000, 100, 100);
 
             dev.Disconnect();
         }
 
         private void ledOn_Click(object sender, EventArgs e)
         {
-            var port = DUEController.GetConnectionPort();
+            var port = DUELinkController.GetConnectionPort();
 
-            var dev = new DUEController(port);
+            var dev = new DUELinkController(port);
 
-            dev.Digital.Write((int)DUEController.Pin.Led, true);
+            dev.Digital.Write((int)dev.Pin.Led, true);
 
             dev.Disconnect();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var port = DUEController.GetConnectionPort();
+            var port = DUELinkController.GetConnectionPort();
 
-            var dev = new DUEController(port);
+            var dev = new DUELinkController(port);
 
-            dev.Digital.Write((int)DUEController.Pin.Led, false);
+            dev.Digital.Write((int)dev.Pin.Led, false);
 
             dev.Disconnect();
         }
 
         private void btSend_Click(object sender, EventArgs e)
         {
-            var port = DUEController.GetConnectionPort();
+            var port = DUELinkController.GetConnectionPort();
 
-            var dev = new DUEController(port);
+            var dev = new DUELinkController(port);
 
             dev.Display.Clear(0);
 

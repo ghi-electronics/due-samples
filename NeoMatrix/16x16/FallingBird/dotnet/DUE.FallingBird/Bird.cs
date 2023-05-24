@@ -1,16 +1,16 @@
 // See https://aka.ms/new-console-template for more information
 
 
-using DUE.Graphics;
-using GHIElectronics.DUE;
-using static GHIElectronics.DUE.DUEController;
-using static GHIElectronics.DUE.DUEController.ButtonController;
+using DUELink.Graphics;
+using GHIElectronics.DUELink;
+using static GHIElectronics.DUELink.DUELinkController;
+using static GHIElectronics.DUELink.DUELinkController.ButtonController;
 
 partial class Bird {
     private const int FALL_DELAY = 2;
 
     private readonly Canvas g;
-    private readonly ButtonController btn;
+    private readonly DigitalController btn;
     private readonly List<Particle> particles = new();
     private readonly int startX;
     private readonly int startY;
@@ -19,7 +19,7 @@ partial class Bird {
     private int dy = 0;
     private int fallTimer;
     private States state = States.Alive;
-
+    const int BUTTON_B = 98;
     private enum States {
         Alive,
         Die,
@@ -27,13 +27,11 @@ partial class Bird {
         Dead
     }
 
-    public Bird(Canvas g, ButtonController btn, int x, int y) {
+    public Bird(Canvas g, DigitalController btn, int x, int y) {
         this.g = g;
         this.btn = btn;
         this.startX = x;
         this.startY = this.y = y;
-
-        btn.Enable((int)DUEController.Pin.ButtonB, true);
     }
 
     public void Reset() {
@@ -60,7 +58,7 @@ partial class Bird {
     }
 
     private void Fly() {
-        if (this.btn.IsPressed((int)DUEController.Pin.ButtonB)) {
+        if (this.btn.Read(BUTTON_B, 1) == false) {
             this.fallTimer = FALL_DELAY;
             if (this.y > 0) {
                 this.y--;

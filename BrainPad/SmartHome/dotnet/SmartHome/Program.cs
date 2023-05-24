@@ -1,6 +1,6 @@
 
 using System.Runtime.CompilerServices;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 using SmartHome;
 var pageIndex = 0;
@@ -15,9 +15,9 @@ var doorOpening = false;
 var windowOpening = false;
 
 
-var port = DUEController.GetConnectionPort();
+var port = DUELinkController.GetConnectionPort();
 
-var dueController = new DUEController(port);
+var dueController = new DUELinkController(port);
 
 var fan = new FanController(dueController, 12, 13);
 
@@ -53,7 +53,7 @@ while (true) {
                 ResetVariables(false);
                 if ((pageIndex % 2) == 0) {
                     dueController.Display.Clear(0);
-                    dueController.Display.DrawText("**Smart Home by DUE**", 1, 0, 0);
+                    dueController.Display.DrawText("**Smart Home by DUELink**", 1, 0, 0);
                     dueController.Display.DrawText("key 0: Fan auto/off", 1, 0, 10);
                     dueController.Display.DrawText("key 1..3: Fan speead", 1, 0, 20);
                     dueController.Display.DrawText("up/down: door control", 1, 0, 30);

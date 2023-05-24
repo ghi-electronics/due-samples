@@ -1,11 +1,11 @@
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
-var port = DUEController.GetConnectionPort();
+var port = DUELinkController.GetConnectionPort();
 
-var dueController = new DUEController(port);
+var dueController = new DUELinkController(port);
 
 var screen = new ScrollBit.ScrollBitController(dueController);
 
 screen.Clear();
-screen.DrawString("DUE", 128, 0, 0);
+screen.DrawString("DUELink", 128, 0, 0);
 screen.Show();

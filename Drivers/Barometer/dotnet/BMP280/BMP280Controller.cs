@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace BMP280 {
     public class BMP280Controller {
-        DUEController dueController;
+        DUELinkController dueController;
         public byte SlaveAddress { get; }
 
         // Calibratino data
@@ -25,7 +25,7 @@ namespace BMP280 {
         short dig_P9;
         int fine;
 
-        public BMP280Controller(DUEController due, byte slaveAddress = 0x77) {
+        public BMP280Controller(DUELinkController due, byte slaveAddress = 0x77) {
             this.dueController = due;
             this.SlaveAddress= slaveAddress;
 

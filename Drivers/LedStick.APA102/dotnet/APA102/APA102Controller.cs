@@ -4,11 +4,11 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace APA102 {
     public class APA102Controller {
-        DUEController dueController;
+        DUELinkController dueController;
         public byte SlaveAddress { get; private set; }
         // Qwiic LED Stick commands
         const byte COMMAND_CHANGE_ADDRESS = 0xC7;
@@ -23,7 +23,7 @@ namespace APA102 {
         const byte COMMAND_WRITE_ALL_LED_OFF = 0x78;
 
         public int LedCount { get; private set; } = 10;
-        public APA102Controller(DUEController dueController, byte slaveAddress = 0x23) {
+        public APA102Controller(DUELinkController dueController, byte slaveAddress = 0x23) {
             this.dueController = dueController;
             this.SlaveAddress = slaveAddress;
         }

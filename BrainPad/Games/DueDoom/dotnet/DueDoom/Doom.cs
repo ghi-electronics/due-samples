@@ -1,4 +1,4 @@
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace DueDoom {
     internal partial class Doom {
@@ -6,15 +6,15 @@ namespace DueDoom {
         const double TurnSpeed = 0.05;
         const double WalkSpeed = 0.1;
 
-        readonly DUEController dueController;
+        readonly DUELinkController dueController;
         readonly BasicGraphics gfx;
 
-        public Doom(DUEController dueController, BasicGraphics gfx) {
+        public Doom(DUELinkController dueController, BasicGraphics gfx) {
             this.dueController = dueController;
             this.gfx = gfx;
 
-            this.dueController.Button.Enable((int)DUEController.Pin.ButtonA, true);
-            this.dueController.Button.Enable((int)DUEController.Pin.ButtonB, true);
+            this.dueController.Button.Enable((int)this.dueController.Pin.ButtonA, true);
+            this.dueController.Button.Enable((int)this.dueController.Pin.ButtonB, true);
         }
 
         public void Run() {
@@ -105,7 +105,7 @@ namespace DueDoom {
                     }
                     this.DrawSliver(x, drawStart, drawEnd, GradientCount - (int)(distance / MaxRenderDepth * GradientCount) - side * 2);
                 }
-                this.dueController.Display.DrawBuffer(this.gfx.Buffer, 0, this.gfx.Buffer.Length);
+                this.dueController.Display.DrawBuffer(this.gfx.Buffer);
 
                 double turn = 0;
                 double walk = 0;
@@ -142,8 +142,8 @@ namespace DueDoom {
 
                 if (turn == 0 && walk == 0) { // process button only if keyboard not used.
 
-                    var btA = this.dueController.Button.IsPressed((int)DUEController.Pin.ButtonA) ? true : false;
-                    var btB = this.dueController.Button.IsPressed((int)DUEController.Pin.ButtonB) ? true : false;
+                    var btA = this.dueController.Digital.Read((int)this.dueController.Pin.ButtonA, 1) ? false : true;
+                    var btB = this.dueController.Digital.Read((int)this.dueController.Pin.ButtonB, 1) ? false : true;
                     if (btA && btB) {
                         walk = WalkSpeed;
                         if (this.map[(int)posY, (int)(posX + dirX * walk)] == 0) posX += dirX * walk;
