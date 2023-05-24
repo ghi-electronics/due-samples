@@ -84,7 +84,7 @@ class FallingBirdGame {
     }
 
     private void UpdateStart() {
-        this.g.DrawText(Font.Font4x6, "'B'", 2, 2, Color.Cyan);
+        this.g.DrawText(Font.Font4x6, "'A'", 2, 2, Color.Cyan);
         this.g.DrawText(Font.Font4x6, "Play", 0, 8, Color.Cyan);
         if (this.btn.Read(BUTTON_A, 1)) {
             this.Reset(true);
