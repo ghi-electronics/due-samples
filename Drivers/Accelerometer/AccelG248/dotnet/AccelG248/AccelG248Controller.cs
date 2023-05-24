@@ -1,12 +1,12 @@
-using GHIElectronics.DUE;
+using GHIElectronics.DUELink;
 
 namespace Accelerometer {
     public class AccelG248Controller
     {
-        DUEController dueController;
+        DUELinkController dueController;
 
         private byte slaveAddres;
-        public AccelG248Controller(DUEController due, byte slaveAddress = 0x1C)
+        public AccelG248Controller(DUELinkController due, byte slaveAddress = 0x1C)
         {
             this.dueController = due;
             this.slaveAddres = slaveAddress;
