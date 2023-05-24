@@ -1,10 +1,10 @@
-from DUE.DUEController import DUEController
+from DUELink.DUELinkController import DUELinkController
 
 import time
 
-availablePort = DUEController.GetConnectionPort()
+availablePort = DUELinkController.GetConnectionPort()
     
-dev = DUEController(availablePort)
+dev = DUELinkController(availablePort)
 
 
 def TurnLed(on: bool):
@@ -14,7 +14,7 @@ def TurnLed(on: bool):
         dev.Digital.Write(108, 0)
 
 def PlaySound():
-    dev.Sound.Play(1000, 100, 100)
+    dev.Frequency.Write('p', 1000, 100, 100)
 
 def SendText(text: str):
     dev.Display.Clear(0)
@@ -53,7 +53,7 @@ def ShowMenu():
             case 3:
                 TurnLed(True)
             case 4:
-                TurnLed(True)
+                TurnLed(False)
             case 5:
                 ret = True
 ShowMenu()

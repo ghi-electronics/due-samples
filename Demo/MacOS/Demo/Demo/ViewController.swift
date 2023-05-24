@@ -154,7 +154,7 @@ class ViewController: NSViewController {
     }
     
     @IBAction func playsoundclick(_ sender: Any) {
-        var cmd = "sound(1000,500,100)";
+        var cmd = "freq('p',1000,500,100)";
         
         SendCmd(cmd: cmd);
     }

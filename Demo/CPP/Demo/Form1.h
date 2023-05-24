@@ -191,7 +191,7 @@ namespace CppCLRWinFormsProject {
 
             if (serialport->IsOpen) {
 
-                serialport->Write("sound(1000,100,100)\n");
+                serialport->Write("freq('p',1000,100,100)\n");
 
                 serialport->Close();
             }
