@@ -145,12 +145,12 @@ while True:
 
 
 		if mask > withoutMask:
-			BP.Sound.Play(10000,100,100)
-			BP.Digital.Write(18, 0)
+			BP.Frequency.Write('p',10000,100,100)
+			BP.Digital.Write('l', 0)
 			print(1)
 		else:
-			BP.Sound.Play(1000, 100, 100)
-			BP.Digital.Write(18, 1)
+			BP.Frequency.Write('p',1000, 100, 100)
+			BP.Digital.Write('l', 1)
 			print(0)
 
 	# show the output frame
